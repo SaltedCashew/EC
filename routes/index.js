@@ -7,7 +7,7 @@ var router = express.Router();
 var cache = apicache.middleware;
 
 /* GET home page. */
-router.get('/api/stops', cache('1 minute'), function(req, res, next) {
+router.get('/api/stops', cache('1 hour'), function(req, res, next) {
   var content = JSON.parse(fs.readFileSync('data/stops.json'));
   res.json(content);
 });
