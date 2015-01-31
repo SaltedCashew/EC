@@ -1,0 +1,32 @@
+API KEYS:
+Google Maps API: AIzaSyCq-OSad3dn_NHaAD_I9b96DOuGPBmXYbI
+Transport for Edinburgh: 0c627af5849e23b0b030bc7352550884
+mybustracker.co.uk API: FTG4NVYZ3R5FL82565MRSDHRM
+
+1. Start with google map centred on Edinburgh (55.9410365,-3.1839431), zoom level 12
+Example: https://www.google.com/maps/embed/v1/view?key=AIzaSyCq-OSad3dn_NHaAD_I9b96DOuGPBmXYbI&center=-55.9410365,-3.1839431&zoom=12&maptype=satellite
+
+2. Get the list of all stops from TFE: https://tfe-opendata.com/api/v1/stops
+Use this to generate a KML representation of the stops, including an icon indicating stop direction.
+The services that serve the stop should also be included, they will be needed later.
+Draw this on the map as a KML layer as detailed here: https://developers.google.com/maps/documentation/javascript/kmllayer
+
+3. On location input, use the geocoding google API documented at https://developers.google.com/maps/documentation/javascript/geocoding
+This will take an address string and provide the matching location(s) as a LatLng object.
+
+4. Use this LatLng to move and zoom the map to this location via Javascript:
+Example:
+	map.setCenter(LatLng)
+	map.setZoom(zoom:17)
+
+5. When a bus stop is clicked, a KmlMouseEvent will be generated. This has a featureData attribute containing JSON. This can be used to retrieve the stop code and the services which stop there. These service numbers can then be displayed as buttons or a dropdown.
+
+6. The stop code can be used to retrieve the timetable for that stop:
+https://tfe-opendata.com/api/v1/timetables/{stop_code}
+This can be filtered by service name and time (in H:MM format) to find the next buses due.
+NOTE: this can return duplicates, make sure to check the valid_from attribute.
+
+7. Live bus positions are retrieved using https://tfe-opendata.com/api/v1/vehicle_locations
+This can be filtered by service_name and destination (which we have from the timetable). Accurately determining whether a given bus has already visited our stop will be non-trivial however.
+
+8.
