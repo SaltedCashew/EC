@@ -29,4 +29,9 @@ NOTE: this can return duplicates, make sure to check the valid_from attribute.
 7. Live bus positions are retrieved using https://tfe-opendata.com/api/v1/vehicle_locations
 This can be filtered by service_name and destination (which we have from the timetable). Accurately determining whether a given bus has already visited our stop will be non-trivial however.
 
-8.
+8. Another KML file can be generated, showing the buses and displayed using the KML Google API. This can be updated every 15 seconds.
+
+9. The arrival time for the bus can be estimated somehow, or an estimate retrieved from the mybustracker API:
+Example:
+http://ws.mybustracker.co.uk/?module=json&key=074cc587109b514bc36a3d27eb7575d5&function=getBusTimes&stopId1=36253585
+NOTE: The key needs to be recomputed hourly. It is md5(API_key+YYYY+MM+DD+HH) where HH is in 24 hour format GMT.
