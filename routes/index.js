@@ -19,9 +19,9 @@ router.get('/api/stops', cache('1 hour'), function(req, res, next) {
 //   res.send(200);
 // });
 
-router.get('/', function(req, res) {
+// router.get('/', function(req, res) {
 
-    res.send('Hello World!');
-});
+//     res.send('Hello World!');
+// });
 
 module.exports = router;

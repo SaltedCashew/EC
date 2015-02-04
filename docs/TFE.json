@@ -1,1 +1,97 @@
-{"id":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","name":"TFE","timestamp":1422700055437,"requests":[{"collectionId":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","id":"13cf02a6-106c-2da9-309d-0338cdc6e2eb","name":"Timetable request","description":"Fetches timetable(s) for a particular stop.","url":"https://tfe-opendata.com/api/v1/timetables/36232897","method":"GET","headers":"Authorization: Token 0c627af5849e23b0b030bc7352550884\n","data":[],"dataMode":"params","timestamp":0,"version":2,"time":1422702228491},{"collectionId":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","id":"17beb1e6-38c4-0fde-a4f2-a21eed5b59ae","name":"Services request","description":"Fetches a list of all stops.","url":"https://tfe-opendata.com/api/v1/services","method":"GET","headers":"Authorization: Token 0c627af5849e23b0b030bc7352550884\n","data":[],"dataMode":"params","timestamp":0,"responses":[],"version":2},{"collectionId":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","id":"270ef54c-10af-1fb4-f3db-2bd1d52fdc06","name":"Directions request","description":"Takes start co-ords, end co-ords, a unix timecode and a time mode (LeaveAfter or ArriveBy) and returns up to five journey plans.","url":"https://tfe-opendata.com/api/v1/directions/?start=55.944373,-3.186893&finish=55.9217234,-3.1740195&date=1422810000&time_mode=LeaveAfter","method":"GET","headers":"Authorization: 0c627af5849e23b0b030bc7352550884\n","data":[],"dataMode":"params","timestamp":0,"version":2,"time":1422702479771},{"collectionId":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","id":"35de3a00-0905-de11-ddf4-035e9681ced1","name":"Status request","description":"The status endpoint gives you up-to-the-minute information on all disruptions affecting Lothian Buses and Edinburgh Trams services.","url":"https://tfe-opendata.com/api/v1/status","method":"GET","headers":"Authorization: 0c627af5849e23b0b030bc7352550884\n","data":[],"dataMode":"params","timestamp":0,"responses":[],"version":2},{"collectionId":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","id":"4f8c25cb-b519-9802-5940-bba21f44e915","name":"Stops request","description":"Fetches all stops.","url":"https://tfe-opendata.com/api/v1/stops","method":"GET","headers":"Authorization: Token 0c627af5849e23b0b030bc7352550884\n","data":[],"dataMode":"params","timestamp":0,"responses":[],"version":2},{"collectionId":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","id":"6fe7b8f1-0984-6a95-b81c-a4537bc88c99","name":"Bus Location request","description":"The vehicle_locations endpoint provides real-time information on the position of all buses that are currently in service.","url":"https://tfe-opendata.com/api/v1/vehicle_locations","method":"GET","headers":"Authorization: 0c627af5849e23b0b030bc7352550884\n","data":[],"dataMode":"params","timestamp":0,"version":2,"time":1422708078122},{"collectionId":"295b1c79-6461-f7b1-0d0d-d1fdbf804a0c","id":"77ed4b33-c4c3-b7da-5676-aff9d474dd04","name":"Journeys request","description":"The journeys endpoint gives you information on every journey made by a bus or tram service. Each journey contains the departure times at each stop on the journey. This information is similar to the timetables endpoint, but pivoted to show individual journeys over a range of stops, rather than a list of departures from one stop.","url":"https://tfe-opendata.com/api/v1/journeys/1","method":"GET","headers":"Authorization: Token 0c627af5849e23b0b030bc7352550884\n","data":[],"dataMode":"params","timestamp":0,"responses":[],"version":2}]}
+{
+    "id": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+    "name": "TFE",
+    "timestamp": 1422700055437,
+    "requests": [{
+        "collectionId": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+        "id": "13cf02a6-106c-2da9-309d-0338cdc6e2eb",
+        "name": "Timetable request",
+        "description": "Fetches timetable(s) for a particular stop.",
+        "url": "https://tfe-opendata.com/api/v1/timetables/36232897",
+        "method": "GET",
+        "headers": "Authorization: Token 0c627af5849e23b0b030bc7352550884\n",
+        "data": [],
+        "dataMode": "params",
+        "timestamp": 0,
+        "version": 2,
+        "time": 1422702228491
+    }, {
+        "collectionId": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+        "id": "17beb1e6-38c4-0fde-a4f2-a21eed5b59ae",
+        "name": "Services request",
+        "description": "Fetches a list of all stops.",
+        "url": "https://tfe-opendata.com/api/v1/services",
+        "method": "GET",
+        "headers": "Authorization: Token 0c627af5849e23b0b030bc7352550884\n",
+        "data": [],
+        "dataMode": "params",
+        "timestamp": 0,
+        "responses": [],
+        "version": 2
+    }, {
+        "collectionId": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+        "id": "270ef54c-10af-1fb4-f3db-2bd1d52fdc06",
+        "name": "Directions request",
+        "description": "Takes start co-ords, end co-ords, a unix timecode and a time mode (LeaveAfter or ArriveBy) and returns up to five journey plans.",
+        "url": "https://tfe-opendata.com/api/v1/directions/?start=55.944373,-3.186893&finish=55.9217234,-3.1740195&date=1422810000&time_mode=LeaveAfter",
+        "method": "GET",
+        "headers": "Authorization: 0c627af5849e23b0b030bc7352550884\n",
+        "data": [],
+        "dataMode": "params",
+        "timestamp": 0,
+        "version": 2,
+        "time": 1422702479771
+    }, {
+        "collectionId": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+        "id": "35de3a00-0905-de11-ddf4-035e9681ced1",
+        "name": "Status request",
+        "description": "The status endpoint gives you up-to-the-minute information on all disruptions affecting Lothian Buses and Edinburgh Trams services.",
+        "url": "https://tfe-opendata.com/api/v1/status",
+        "method": "GET",
+        "headers": "Authorization: 0c627af5849e23b0b030bc7352550884\n",
+        "data": [],
+        "dataMode": "params",
+        "timestamp": 0,
+        "responses": [],
+        "version": 2
+    }, {
+        "collectionId": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+        "id": "4f8c25cb-b519-9802-5940-bba21f44e915",
+        "name": "Stops request",
+        "description": "Fetches all stops.",
+        "url": "https://tfe-opendata.com/api/v1/stops",
+        "method": "GET",
+        "headers": "Authorization: Token 0c627af5849e23b0b030bc7352550884\n",
+        "data": [],
+        "dataMode": "params",
+        "timestamp": 0,
+        "responses": [],
+        "version": 2
+    }, {
+        "collectionId": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+        "id": "6fe7b8f1-0984-6a95-b81c-a4537bc88c99",
+        "name": "Bus Location request",
+        "description": "The vehicle_locations endpoint provides real-time information on the position of all buses that are currently in service.",
+        "url": "https://tfe-opendata.com/api/v1/vehicle_locations",
+        "method": "GET",
+        "headers": "Authorization: 0c627af5849e23b0b030bc7352550884\n",
+        "data": [],
+        "dataMode": "params",
+        "timestamp": 0,
+        "version": 2,
+        "time": 1422708078122
+    }, {
+        "collectionId": "295b1c79-6461-f7b1-0d0d-d1fdbf804a0c",
+        "id": "77ed4b33-c4c3-b7da-5676-aff9d474dd04",
+        "name": "Journeys request",
+        "description": "The journeys endpoint gives you information on every journey made by a bus or tram service. Each journey contains the departure times at each stop on the journey. This information is similar to the timetables endpoint, but pivoted to show individual journeys over a range of stops, rather than a list of departures from one stop.",
+        "url": "https://tfe-opendata.com/api/v1/journeys/1",
+        "method": "GET",
+        "headers": "Authorization: Token 0c627af5849e23b0b030bc7352550884\n",
+        "data": [],
+        "dataMode": "params",
+        "timestamp": 0,
+        "responses": [],
+        "version": 2
+    }]
+}
