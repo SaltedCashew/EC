@@ -18,7 +18,7 @@
   border-color: #d8d8d8;
   margin-bottom: 1.25rem;
   padding: 1.25rem;
-  background: #FFFF66;
+  background: #4b91f2;
   color: #333333; 
   border-radius: 20px;
   }
@@ -94,6 +94,39 @@ position: absolute;
   width: 100%;
   height: 850px;
 }
+.info-table-title{
+  
+  text-align: center;
+  height: 50px;
+  background-color: #4b91f2;
+
+}
+
+.info-table{
+  
+  width: 100%;
+  text-align: center;
+  border: solid 10px #4b91f2;
+  margin-bottom: 0px;
+  border-bottom-left-radius: 1em; 
+  border-bottom-right-radius:1em;
+
+}
+
+.info-table-cell{
+  text-align: center;
+  height: 50px;
+}
+
+.info-table-header{
+  
+  width: 100%;
+  text-align: center;
+  border: solid 10px #4b91f2;
+  margin-bottom: 0px;
+  border-top-left-radius: 2em; 
+  border-top-right-radius:2em;
+} 
 
 }
 
