@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TeamKirk Transportation | Welcome</title>
+    <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/newtk.css" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="css/flipclock.css">
@@ -12,10 +13,43 @@
      <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script src="js/gmaps.js"></script>
     <script src="js/flipclock.js"></script>    
+    <script type="text/javascript">
+    $(document).ready(function(){
+      map = new GMaps({
+        div: '#map',
+        lat: 55.952889,
+        lng: -3.189591
+      });
+      $('#addressBox').submit(function(e){
+        e.preventDefault();
+        GMaps.geocode({
+          address: $('#postcode').val().trim(),
+          callback: function(results, status){
+            if(status=='OK'){
+              var latlng = results[0].geometry.location;
+              map.setCenter(latlng.lat(), latlng.lng());
+              map.addMarker({
+                lat: latlng.lat(),
+                lng: latlng.lng()
+              });
+            }
+          }
+        });
+      });
+    });
+  </script>
+
+<script type="text/javascript">
+   
+    
+  </script>
 
   </head>
+
+
   <body>
- 
+   
+
   <div class = "top-banner-row">
     <div class="row" style="max-width: 95%">
      <h4>
@@ -31,13 +65,8 @@
       
         <div class="hide-for-small">
           <div id="map" >  </div>
-            <script>
-    var map = new GMaps({
-      el: '#map',
-      lat: 55.944125,
-      lng: -3.186639
-    });
-  </script>
+            
+   
         </div>
       </div>
     </div>
@@ -63,12 +92,13 @@
             </div>
        
             <div class="row">
-              <div class="large-6 small-6 columns">
-                 <form id = "addressBox"> <input type="search"> </form>
+              <div class="large-12 small-6 columns">
+                  <form id = "addressBox">
+                  <input type ="text" id="postcode" placeholder="Enter your post code" class="left" style="width:60%">
+                  <input class = "small round button right" type="submit" value="Search for nearby bus stops" >
+                  </form>
               </div>
-              <div class="large-6 small-6 columns">
-                <a class="small button" href="#">Search for nearby bus stops!</a>
-              </div>
+              
             </div>
           </div>
         </div>
