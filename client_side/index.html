@@ -4,10 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TeamKirk Transportation | Welcome</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/newtk.css" />
+    
     <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/flipclock.css">
+    <link rel="stylesheet" href="css/newtk.css" />
     <link type="text/css" media="screen" rel="stylesheet" href="css/responsive-tables.css" />
     <script src="js/vendor/modernizr.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -41,18 +42,9 @@
       });
     });
   </script>
-
-<script type="text/javascript">
-   
-    
-  </script>
-
   </head>
 
-
   <body>
-   
-
   <div class = "top-banner-row">
     <div class="row" style="max-width: 95%">
      <h4>
@@ -61,15 +53,11 @@
     </div>
   </div>
        
-  <div class ="header-banner" style="height:850px">
-   
+  <div class ="header-banner">
     <div class = "container">
       <div class="mapRow" > <!-- Start of full, non-scrollable map -->
-      
         <div class="hide-for-small">
           <div id="map" >  </div>
-            
-   
         </div>
       </div>
     </div>
@@ -81,14 +69,14 @@
         <div class="large-9 columns" style="margin-left:0%; margin-right:auto; margin-top: 10px">
           <div class="panel radius" style = "border-radius: 20px">
             <div class = "row">
-              <div class="clock" style="margin-left:auto; margin-right:auto; margin-bottom: 2em; width: 80%;"></div>
-              <div class="message"></div>
-
+              <div class="clock"></div>
               <script type="text/javascript">
               var clock;
               $(document).ready(function() {
-              clock = $('.clock').FlipClock({
-              clockFace: 'HourlyCounter'
+              clock = $('.clock').FlipClock(3000, {
+              clockFace: 'HourlyCounter',
+              autoStart: true,
+              countdown: true
               });
               });
               </script>
@@ -105,83 +93,54 @@
             </div>
           </div>
         </div>
-       
-                
           <!-- End Content -->
-       
     </div>
-
-       
-            
-            <div class="small-5 columns">
-            <div class="large-5" style="margin-left:40%; margin-right:auto; margin-top: 35px">
-         
-               
-                <table class="responsive info-table-header" style="background-color: #4b91f2">
-            
+    <div class="small-5 columns">
+     <div class="large-5" style="margin-left:40%; margin-right:auto; margin-top: 35px">
+        <table class="responsive info-table-header" style="background-color: #4b91f2">
           <tr>
-            <th class="info-table-title">Bus Stop Information</th>
-           
+          <th class="info-table-title">Bus Stop Information</th>
           </tr>
           <table class="responsive info-table">
-          <tr>
+            <tr>
             <td class="info-table-cell">Responsive Info</td>
-          </tr>
-          <tr>
-           <td class="info-table-cell">Responsive Info</td>
-          </tr>
-          <tr>
-           <td class="info-table-cell">Responsive Info</td>
-          </tr>
+            </tr>
+            <tr>
+            <td class="info-table-cell">Responsive Info</td>
+            </tr>
+            <tr>
+            <td class="info-table-cell">Responsive Info</td>
+            </tr>
           </table>
         </table>
-          </div>
-          
-          
-       
-      
-            </div>
+      </div>
+    </div>
           </div>
         </div>
       
        </div>
-        <div class = "bottom-back">
-        <br>
 
+  <div class = "bottom-back">
+      
+       
+  <!-- Footer -->
+  <footer class="row">
+  <div class="large-12 columns">
+               
+    <hr>
+    <div class="row">
+      <div class="large-6 columns">
+        <p>© Copyright: Super intelligent anthropomorphic hamsters from outer space.</p>
+      </div>
+      <div class="large-6 columns">
+        <ul class="inline-list right">
+        <li><a href="#">Link to the Past</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ </div>
+</footer>
 
-        <div class="row">
-          <div class="large-12 columns">
-           
-
-            <div class="row">
-       
-          <!-- Content -->
-       
-
-       
-          <!-- End Content -->
-       
-            </div>
-          </div>
-        </div>
-       
-          <!-- Footer -->
-       
-        <footer class="row">
-          <div class="large-12 columns">
-            <hr>
-            <div class="row">
-              <div class="large-6 columns">
-                <p>© Copyright: Super intelligent anthropomorphic hamsters from outer space.</p>
-              </div>
-              <div class="large-6 columns">
-                <ul class="inline-list right">
-                  <li><a href="#">Link to the Past</a>
-                </ul>
-              </div>
-            </div>
-          </div>
-          </div>
-        </footer>
-          </body>
+</body>
 </html>
