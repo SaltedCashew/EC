@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width" />
     <title>TeamKirk Transportation | Welcome</title>
     
     <link rel="shortcut icon" href="favicon.ico" />
@@ -64,18 +64,19 @@
     </div>
  
     <div class="rowFull">
-      <div class="large-6 columns">
+      <div class="large-7 small-7 columns">
         <!-- Content -->
         <br>
-        <div class="large-9 columns" style="margin-left:0%; margin-right:auto; margin-top: 10px">
-          <div class="panel radius" style = "border-radius: 20px">
-            <div class = "row">
+        <div class="large-4point5 small-7 columns" style="margin-left:5%; margin-right:auto; margin-top: 10px">
+          <div class="panel radius" style = "border-radius: 20px; box-shadow: 5px 5px 5px #888888;min-width:280px">
+            
+            <div class = "row" >
               <div class="clock"></div>
               <script type="text/javascript">
               var clock;
               $(document).ready(function() {
               clock = $('.clock').FlipClock(3000, {
-              clockFace: 'HourlyCounter',
+              clockFace: 'MinuteCounter',
               autoStart: true,
               countdown: true
               });
@@ -87,23 +88,24 @@
             <div class="row">
               <div class="large-12 small-6 columns">
                   <form id = "addressBox">
-                  <input type ="text" id="postcode" placeholder="Enter your post code" class="left" style="width:60%">
-                  <input class = "small round button right" type="submit" value="Search for nearby bus stops" >
+                  <input type ="text" id="postcode" placeholder="Enter your post code" style="width: 85%;margin-left: 5%">
+                  <input class = "small round button " type="submit" value="Search for nearby bus stops" style="margin-left: 10%">
                   </form>
               </div>
               
             </div>
           </div>
         </div>
+        </div>
           <!-- End Content -->
     </div>
     <div class="small-5 columns">
      <div class="large-5" style="margin-left:40%; margin-right:auto; margin-top: 35px">
-        <table class="responsive info-table-header" style="background-color: #4b91f2">
+        <table class="responsive info-table-header" style="background-color: #4b91f2; box-shadow: 5px 5px 5px #888888;">
           <tr>
           <th class="info-table-title">Bus Stop Information</th>
           </tr>
-          <table class="responsive info-table">
+          
             <tr>
             <td class="info-table-cell">Responsive Info</td>
             </tr>
@@ -113,7 +115,7 @@
             <tr>
             <td class="info-table-cell">Responsive Info</td>
             </tr>
-          </table>
+          
         </table>
       </div>
     </div>

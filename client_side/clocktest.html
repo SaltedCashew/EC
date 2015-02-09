@@ -6,9 +6,8 @@
     <title>TeamKirk Transportation | Clock Test</title>
     
     <link rel="shortcut icon" href="favicon.ico" />
-   
+   <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/flipclock.css">
-    <link rel="stylesheet" href="css/foundation.css" />
      <link rel="stylesheet" href="css/newtk.css" />
     <link type="text/css" media="screen" rel="stylesheet" href="css/responsive-tables.css" />
     <script src="js/vendor/modernizr.js"></script>
@@ -16,23 +15,24 @@
     <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script src="js/gmaps.js"></script>
     <script src="js/flipclock.js"></script>
+    <script src="js/flipclock.min.js"></script>
     <script src="js/responsive-tables.js"></script>    
 
    
   </head>
 
   <body>
-<div class="clock2"></div>
+<div class="clock"></div>
               <script type="text/javascript">
               var clock;
               $(document).ready(function() {
-              clock = $('.clock2').FlipClock(3000, {
+              clock = $('.clock').FlipClock(3000, {
               clockFace: 'HourlyCounter',
               autoStart: true,
               countdown: false
               });
               });
               </script>
-              <script src="/assets/js/flipclock/flipclock.min.js"></script>
+
             </div>
   </body>
