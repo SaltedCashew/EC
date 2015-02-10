@@ -43,6 +43,7 @@
       });
     });
   </script>
+    
   </head>
 
   <body>
@@ -56,9 +57,15 @@
        
   <div class ="header-banner">
     <div class = "container">
-      <div class="mapRow" > <!-- Start of full, non-scrollable map -->
+      <div class="mapRow" > <!-- Start of full  map -->
         <div class="hide-for-small">
           <div id="map" >  </div>
+        </div>
+        <div class="show-for-small-only">
+        
+          <div id="map_small"></div>
+          <img id ="map_static" src='img/edin.png'>
+           
         </div>
       </div>
     </div>
@@ -68,7 +75,7 @@
         <!-- Content -->
         <br>
         <div class="large-4point5 small-7 columns" style="margin-left:5%; margin-right:auto; margin-top: 10px">
-          <div class="panel radius" style = "border-radius: 20px; box-shadow: 5px 5px 5px #888888;min-width:280px">
+          <div class="panel clockpanel">
             
             <div class = "row" >
               <div class="clock"></div>
@@ -99,9 +106,12 @@
         </div>
           <!-- End Content -->
     </div>
-    <div class="small-5 columns">
-     <div class="large-5" style="margin-left:40%; margin-right:auto; margin-top: 35px">
-        <table class="responsive info-table-header" style="background-color: #4b91f2; box-shadow: 5px 5px 5px #888888;">
+
+
+    <div class="large-5 small-12 columns">
+   
+     <div class="large-5 small-5 tablepanel">
+        <table class="info-table" style="background-color: #4b91f2; box-shadow: 5px 5px 5px #888888;">
           <tr>
           <th class="info-table-title">Bus Stop Information</th>
           </tr>
@@ -115,9 +125,9 @@
             <tr>
             <td class="info-table-cell">Responsive Info</td>
             </tr>
-          
         </table>
       </div>
+      
     </div>
           </div>
         </div>
