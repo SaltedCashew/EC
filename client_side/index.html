@@ -8,15 +8,17 @@
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/flipclock.css">
-
+     <link rel="stylesheet" href="css/jquery.dynatable.css" /> 
     <link rel="stylesheet" href="css/newtk.css" />
-    <link type="text/css" media="screen" rel="stylesheet" href="css/responsive-tables.css" />
     <script src="js/vendor/modernizr.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script src="js/gmaps.js"></script>
     <script src="js/flipclock.js"></script>
     <script src="js/responsive-tables.js"></script>    
+    <script src="js/jquery.dynatable.js"></script> 
+ <!--     <script src="js/jquery-1.7.2.min.js"></script>    -->
+  
 
     <script type="text/javascript">
     $(document).ready(function(){
@@ -111,21 +113,75 @@
     <div class="large-5 small-12 columns">
    
      <div class="large-5 small-5 tablepanel">
-        <table class="info-table" style="background-color: #4b91f2; box-shadow: 5px 5px 5px #888888;">
+     <table id="bustable" class="info-table">
+		<thead>
           <tr>
-          <th class="info-table-title">Bus Stop Information</th>
+          <th class="info-table-title">Bus Stop</th>
+          <th class="info-table-title">Distance</th>
           </tr>
-          
+     	</thead>    
             <tr>
-            <td class="info-table-cell">Responsive Info</td>
+            <td class="info-table-cell">Stop 1</td>
+            <td class="info-table-cell">Distance 1</td>
             </tr>
             <tr>
-            <td class="info-table-cell">Responsive Info</td>
+            <td class="info-table-cell">Stop 2</td>
+             <td class="info-table-cell">Distance 2</td>
             </tr>
             <tr>
-            <td class="info-table-cell">Responsive Info</td>
+            <td >Stop 3</td>
+             <td class="info-table-cell">Distance 3</td>
             </tr>
+            <tr>
+            <td >Stop 4</td>
+             <td class="info-table-cell">Distance 4</td>
+            </tr>
+            <tr>
+            <td >Stop 5</td>
+             <td class="info-table-cell">Distance 5</td>
+            </tr>
+                 <tr>
+            <td class="info-table-cell">Stop 6</td>
+            <td class="info-table-cell">Distance 6</td>
+            </tr>
+            <tr>
+            <td class="info-table-cell">Stop 7</td>
+             <td class="info-table-cell">Distance 7</td>
+            </tr>
+            <tr>
+            <td >Stop 8</td>
+             <td class="info-table-cell">Distance 8</td>
+            </tr>
+            <tr>
+            <td >Stop 9</td>
+             <td class="info-table-cell">Distance 9</td>
+            </tr>
+            
         </table>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+$('#bustable').dynatable({
+    features: {
+      pushState: true,
+      search: false,
+      paginate: true,
+      perPageSelect: false
+    }    });
+    
+    var snap = $('#bustable').data('dynatable');
+    snap.paginationPage.set(1); // Go to page 1
+    snap.paginationPerPage.set(5);
+    snap.process();
+  
+</script>
+        
+      </div>
+
       </div>
       
     </div>
