@@ -190,6 +190,16 @@ position: absolute;
   font-size: 12px;
 }
 
+@media screen and (min-width: 1270px) {
+
+  .searchButton{
+    margin-left: 10%;
+    margin-right: auto;
+  }
+
+}
+
+
 
 
 @media screen and (max-width: 1270px) {
@@ -232,7 +242,15 @@ position: absolute;
     margin-left:05%; 
     width: 280px;
  }
+ .clock{
+  margin-left: 10%;
+  margin-right:auto;
+ }
 
+ .searchButtn{
+  margin-left: auto;
+  margin-right:auto;
+ }
 
 }
 
