@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>TeamKirk Transportation | Welcome</title>
-    
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/flipclock.css">
@@ -17,15 +16,143 @@
     <script src="js/flipclock.js"></script>
     <script src="js/responsive-tables.js"></script>    
     <script src="js/jquery.dynatable.js"></script> 
- <!--     <script src="js/jquery-1.7.2.min.js"></script>    -->
-  
+  </head>
 
+  <body>
+    <div class = "top-banner-row">
+      <div class="row" style="max-width: 95%">
+       <h4>
+        <a href="#" class = "left">TeamKirk Transportation </a>
+       </h4>
+      </div>
+    </div>
+    
+    <!--------------------------------------- Begin Map Section ------------------------------------------> 
+    <div class ="header-banner">
+
+      <div class = "container">
+        <div class="mapRow" > 
+          <div class="hide-for-small">
+            <div id="map" > </div>
+          </div>
+          <div class="show-for-small-only">
+            <div id="map_small"></div>
+            <img id ="map_static" src='img/edin.png'>
+          </div>
+        </div>
+      </div>
+      
+      <!--------------------------------------- Begin Map Overlays --------------------------------------------> 
+      <div class="rowFull">
+
+        <!--------------------------------------- Timer & Location Block -------------------------------------->
+        <div class="large-7 small-7 columns">
+          <br>
+          <div class="large-4point5 small-7 columns" style="margin-left:5%; margin-right:auto; margin-top: 10px">
+            <div class="panel clockpanel">
+              <div class = "row" >
+                <div class="clock"></div>
+              </div>
+              <div class="row">
+                <div class="large-12 small-6 columns">
+                    <form id = "addressBox">
+                    <input type ="text" id="postcode" placeholder="Enter your post code" style="width: 85%;margin-left: 5%">
+                    <input class = "small round button " type="submit" value="Search for nearby bus stops" style="margin-left: 10%">
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--------------------------------------- End Timer & Location Block ------------------------------------>
+        
+
+        <!--------------------------------------- Begin Info Table ---------------------------------------------->
+        <div class="large-5 small-12 columns">
+          <div class="large-5 small-5 tablepanel">
+            <table id="bustable" class="info-table">
+  		        <thead>
+                <tr>
+                  <th class="info-table-title">Bus Stop</th>
+                  <th class="info-table-title">Distance</th>
+                </tr>
+       	      </thead>    
+              <tr>
+                <td class="info-table-cell">Stop 1</td>
+                <td class="info-table-cell">Distance 1</td>
+              </tr>
+              <tr>
+                <td class="info-table-cell">Stop 2</td>
+                <td class="info-table-cell">Distance 2</td>
+              </tr>
+              <tr>
+                <td >Stop 3</td>
+                <td class="info-table-cell">Distance 3</td>
+              </tr>
+              <tr>
+                <td >Stop 4</td>
+                <td class="info-table-cell">Distance 4</td>
+              </tr>
+              <tr>
+                <td >Stop 5</td>
+                <td class="info-table-cell">Distance 5</td>
+              </tr>
+              <tr>
+                <td class="info-table-cell">Stop 6</td>
+                <td class="info-table-cell">Distance 6</td>
+              </tr>
+              <tr>
+                <td class="info-table-cell">Stop 7</td>
+                <td class="info-table-cell">Distance 7</td>
+              </tr>
+              <tr>
+                <td >Stop 8</td>
+                <td class="info-table-cell">Distance 8</td>
+              </tr>
+              <tr>
+                <td >Stop 9</td>
+                <td class="info-table-cell">Distance 9</td>
+              </tr>
+            </table>
+          </div>
+        </div> 
+        <!--------------------------------------- End Info Table -------------------------------------------------->
+
+      </div>
+      <!--------------------------------------- End Map Overlays -------------------------------------------------->         
+  
+    </div>
+    <!--------------------------------------- End Map Section ------------------------------------------------------> 
+            
+
+    <!--------------------------------------- Begin Lower / Footer Section ------------------------------------------> 
+    <div class = "bottom-back">
+      <footer class="row">
+        <div class="large-12 columns">
+          <hr>
+          <div class="row">
+            <div class="large-6 columns">
+              <p style="color: white">© Copyright: Team Kirk - Enterprise Computing</p>
+            </div>
+            <div class="large-6 columns">
+              <ul class="inline-list right">
+                <li><a href="#">Link to the Past</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer> 
+    </div>
+    <!--------------------------------------- End Lower / Footer Section ------------------------------------------> 
+
+
+     <!--------------------------------------- Begin Scripts ------------------------------------------------------>     
     <script type="text/javascript">
-    $(document).ready(function(){
-      map = new GMaps({
-        div: '#map',
-        lat: 55.952889,
-        lng: -3.189591
+      $(document).ready(function(){
+        map = new GMaps({
+          div: '#map',
+          lat: 55.952889,
+          lng: -3.189591
       });
       $('#addressBox').submit(function(e){
         e.preventDefault();
@@ -44,173 +171,34 @@
         });
       });
     });
-  </script>
-    
-  </head>
-
-  <body>
-  <div class = "top-banner-row">
-    <div class="row" style="max-width: 95%">
-     <h4>
-     <a href="#" class = "left">TeamKirk Transportation </a>
-     </h4>
-    </div>
-  </div>
-       
-  <div class ="header-banner">
-    <div class = "container">
-      <div class="mapRow" > <!-- Start of full  map -->
-        <div class="hide-for-small">
-          <div id="map" >  </div>
-        </div>
-        <div class="show-for-small-only">
-        
-          <div id="map_small"></div>
-          <img id ="map_static" src='img/edin.png'>
-           
-        </div>
-      </div>
-    </div>
- 
-    <div class="rowFull">
-      <div class="large-7 small-7 columns">
-        <!-- Content -->
-        <br>
-        <div class="large-4point5 small-7 columns" style="margin-left:5%; margin-right:auto; margin-top: 10px">
-          <div class="panel clockpanel">
-            
-            <div class = "row" >
-              <div class="clock"></div>
-              <script type="text/javascript">
-              var clock;
-              $(document).ready(function() {
-              clock = $('.clock').FlipClock(3000, {
-              clockFace: 'MinuteCounter',
-              autoStart: true,
-              countdown: true
-              });
-              });
-              </script>
-              <script src="js/flipclock/flipclock.min.js"></script>
-            </div>
-       
-            <div class="row">
-              <div class="large-12 small-6 columns">
-                  <form id = "addressBox">
-                  <input type ="text" id="postcode" placeholder="Enter your post code" style="width: 85%;margin-left: 5%">
-                  <input class = "small round button " type="submit" value="Search for nearby bus stops" style="margin-left: 10%">
-                  </form>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-        </div>
-          <!-- End Content -->
-    </div>
-
-
-    <div class="large-5 small-12 columns">
-   
-     <div class="large-5 small-5 tablepanel">
-     <table id="bustable" class="info-table">
-		<thead>
-          <tr>
-          <th class="info-table-title">Bus Stop</th>
-          <th class="info-table-title">Distance</th>
-          </tr>
-     	</thead>    
-            <tr>
-            <td class="info-table-cell">Stop 1</td>
-            <td class="info-table-cell">Distance 1</td>
-            </tr>
-            <tr>
-            <td class="info-table-cell">Stop 2</td>
-             <td class="info-table-cell">Distance 2</td>
-            </tr>
-            <tr>
-            <td >Stop 3</td>
-             <td class="info-table-cell">Distance 3</td>
-            </tr>
-            <tr>
-            <td >Stop 4</td>
-             <td class="info-table-cell">Distance 4</td>
-            </tr>
-            <tr>
-            <td >Stop 5</td>
-             <td class="info-table-cell">Distance 5</td>
-            </tr>
-                 <tr>
-            <td class="info-table-cell">Stop 6</td>
-            <td class="info-table-cell">Distance 6</td>
-            </tr>
-            <tr>
-            <td class="info-table-cell">Stop 7</td>
-             <td class="info-table-cell">Distance 7</td>
-            </tr>
-            <tr>
-            <td >Stop 8</td>
-             <td class="info-table-cell">Distance 8</td>
-            </tr>
-            <tr>
-            <td >Stop 9</td>
-             <td class="info-table-cell">Distance 9</td>
-            </tr>
-            
-        </table>
-
-</div>
-
-
-
-
-<script type="text/javascript">
-$('#bustable').dynatable({
-    features: {
-      pushState: true,
-      search: false,
-      paginate: true,
-      perPageSelect: false
-    }    });
-    
-    var snap = $('#bustable').data('dynatable');
-    snap.paginationPage.set(1); // Go to page 1
-    snap.paginationPerPage.set(5);
-    snap.process();
-  
-</script>
-        
-      </div>
-
-      </div>
-      
-    </div>
-          </div>
-        </div>
-      
-       </div>
-
-  <div class = "bottom-back">
-      
-       
-  <!-- Footer -->
-  <footer class="row">
-  <div class="large-12 columns">
-               
-    <hr>
-    <div class="row">
-      <div class="large-6 columns">
-        <p style="color: white">© Copyright: Team Kirk - Enterprise Computing</p>
-      </div>
-      <div class="large-6 columns">
-        <ul class="inline-list right">
-        <li><a href="#">Link to the Past</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
- </div>
-</footer>
-
-</body>
+    </script>
+    <script type="text/javascript">
+      $('#bustable').dynatable({
+        features: {
+          pushState: true,
+          search: false,
+          paginate: true,
+          perPageSelect: false
+      } });
+      var snap = $('#bustable').data('dynatable');
+      snap.paginationPage.set(1); // Go to page 1
+      snap.paginationPerPage.set(5);
+      snap.process();
+    </script>
+    <script type="text/javascript">
+      var clock;
+      $(document).ready(function() {
+        clock = $('.clock').FlipClock(3000, {
+        clockFace: 'MinuteCounter',
+        autoStart: true,
+        countdown: true
+      });  });
+    </script>
+    <script src="js/flipclock/flipclock.min.js"></script>
+    <script src="/js/foundation.min.js"></script> 
+    <script>
+      $(document).foundation();
+    </script>
+    <!--------------------------------------- End Scripts ------------------------------------------>     
+  </body>
 </html>
