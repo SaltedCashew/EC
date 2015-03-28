@@ -149,6 +149,7 @@ position: absolute;
   border-radius: 20px; 
   box-shadow: 5px 5px 5px #888888;
   min-width:380px;
+  pointer-events: all;
 
 }
 
@@ -166,6 +167,7 @@ position: absolute;
     border-radius: 25px;
     background-color: #4b91f2;
     min-width: 300px;
+    pointer-events:all;
 
  }
 
@@ -184,7 +186,11 @@ position: absolute;
   color: #00FF00;
 }
 
-
+  .timerLocPanel{
+    margin-left: 5%;
+    margin-right: auto;
+    margin-top: 10px
+  }
 
 .dynatable-record-count{
   font-size: 12px;
@@ -235,12 +241,14 @@ position: absolute;
 
       .clockpanel{
       min-width:280px;
+      pointer-events: all;
 
     }
 
      .tablepanel{
     margin-left:05%; 
     width: 280px;
+    pointer-events: all;
  }
  .clock{
   margin-left: 10%;
@@ -256,7 +264,11 @@ position: absolute;
 
       .flip-clock-divider.minutes { clear: none;}
 
-     
+
+@media only screen and (min-width: 550px) {
+  .large-4point5 {
+    width: 37.33333%; }
+}
 
 @media screen and (max-width: 550px) {
 
@@ -264,7 +276,17 @@ position: absolute;
 
 }
 
-@media only screen and (min-width: 550px) {
+@media only screen and (max-width: 380px) {
   .large-4point5 {
     width: 37.33333%; }
+
+  .tablepanel{
+    margin-left: -6%;
+    margin-right: auto;
+  }
+
+  .timerLocPanel{
+    margin-left: -15%;
+    margin-right: auto;
+  }
 }
