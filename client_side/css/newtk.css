@@ -3,13 +3,15 @@
  *CSS included in this file overrides founndation css 
  */
 
-  .rowFull {
+.flip-clock-divider.minutes { clear: none;}
+
+.rowFull {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  }
+}
 
 /* Panels */
 .panel {
@@ -21,23 +23,22 @@
   background: #4b91f2;
   color: #333333; 
   border-radius: 20px;
-  }
+}
 
 .mainImage{
-   width:40em; /*width of your image*/
-   height:40em; /*height of your image*/
-   display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50;
+  width:40em; /*width of your image*/
+  height:40em; /*height of your image*/
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50;
   padding-top: 50;
-   padding:10; /*if your want to padding */
+  padding:10; /*if your want to padding */
 }
 
 .title{
   text-align: center;
 }
-
 
 .innerContent{
   display: block;
@@ -59,17 +60,18 @@
 .bottom-back{
   background-color: #333333;
 }
+
 .bar{
   color: black;
 }
 
 .mapRow{
-width: 100%;
-margin-left: auto;
-margin-right: auto;
-margin-top: 0;
-margin-bottom: 0;
-position: absolute;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  position: absolute;
 }
 
 #container {
@@ -102,15 +104,12 @@ position: absolute;
 }
 
 .info-table-title{
-  
   text-align: center;
   height: 50px;
   background-color: #4b91f2;
-
 }
 
 .info-table{
-  
   width: 100%;
   text-align: center;
   border: solid 10px #4b91f2;
@@ -118,8 +117,7 @@ position: absolute;
   border-bottom-left-radius: 1em; 
   border-bottom-right-radius:1em;
   min-width: 280px;
-   border-radius: 1em;
-
+  border-radius: 1em;
 }
 
 .info-table-cell{
@@ -128,14 +126,11 @@ position: absolute;
 }
 
 .info-table-header{
-  
   width: 100%;
   text-align: center;
   border: solid 10px #4b91f2;
   margin-bottom: 0px;
- 
-    min-width: 220px;
-  
+  min-width: 220px;
 } 
 
 .clock{
@@ -150,9 +145,7 @@ position: absolute;
   box-shadow: 5px 5px 5px #888888;
   min-width:380px;
   pointer-events: all;
-
 }
-
 
  #addressBox{
   min-width: 220px;
@@ -168,101 +161,91 @@ position: absolute;
     background-color: #4b91f2;
     min-width: 300px;
     pointer-events:all;
-
  }
 
 .tablepanel a:link{
   color: yellow;
 }
 
- a.dynatable-page-link {
+a.dynatable-page-link {
   color: yellow;
 }
- a.dynatable-disabled-page {
+
+a.dynatable-disabled-page {
   color: blue;
 }
 
- a.dynatable-page-next a.dynatable-page-link {
+a.dynatable-page-next a.dynatable-page-link {
   color: #00FF00;
 }
 
-  .timerLocPanel{
-    margin-left: 5%;
-    margin-right: auto;
-    margin-top: 10px
-  }
+.timerLocPanel{
+  margin-left: 5%;
+  margin-right: auto;
+  margin-top: 10px
+}
 
 .dynatable-record-count{
   font-size: 12px;
 }
 
 @media screen and (min-width: 1270px) {
-
   .searchButton{
     margin-left: 10%;
     margin-right: auto;
   }
-
 }
 
 
 
 
 @media screen and (max-width: 1270px) {
+  /*.home-featured .clock { margin: 0 auto; display: block; width: 322px; }*/
+  .home-featured h1 { font-size: 1.6em; }
 
-    /*.home-featured .clock { margin: 0 auto; display: block; width: 322px; }*/
-    .home-featured h1 { font-size: 1.6em; }
+  .flip-clock-wrapper ul { height: 50px; line-height: 50px; margin: 3px; }
+  .flip-clock-wrapper ul li a div.up:after { top: 24px; }
+  .flip-clock-divider { height: 50px; }
+  .flip-clock-dot { height: 6px; width: 6px; left: 7px;}
+  .flip-clock-dot.top { top: 17px; }
+  .flip-clock-dot.bottom { bottom: 8px; }
 
-    .flip-clock-wrapper ul { height: 50px; line-height: 50px; margin: 3px; }
-    .flip-clock-wrapper ul li a div.up:after { top: 24px; }
-    .flip-clock-divider { height: 50px; }
-    .flip-clock-dot { height: 6px; width: 6px; left: 7px;}
-    .flip-clock-dot.top { top: 17px; }
-    .flip-clock-dot.bottom { bottom: 8px; }
+  .flip-clock-divider .flip-clock-label { font-size: 16px; }
+  .flip-clock-divider.days .flip-clock-label { right: -76px; }
+  .flip-clock-divider.hours .flip-clock-label { right: -70px; }
+  .flip-clock-divider.minutes .flip-clock-label { right: -64px; }
+  .flip-clock-divider.seconds .flip-clock-label { right: -70px; }
 
-    .flip-clock-divider .flip-clock-label { font-size: 16px; }
-    .flip-clock-divider.days .flip-clock-label { right: -76px; }
-    .flip-clock-divider.hours .flip-clock-label { right: -70px; }
-    .flip-clock-divider.minutes .flip-clock-label { right: -64px; }
-    .flip-clock-divider.seconds .flip-clock-label { right: -70px; }
+  .flip-clock-wrapper ul { width: 37px; }
+  .flip-clock-wrapper ul li {line-height: 50px;}
+  .flip-clock-wrapper ul li a div div.inn { font-size: 38px; }
 
-    .flip-clock-wrapper ul { width: 37px; }
-    .flip-clock-wrapper ul li {line-height: 50px;}
-    .flip-clock-wrapper ul li a div div.inn { font-size: 38px; }
+  /* Korekcja położenia pól zegara załamanych do nowej linii */
+  .flip-clock-wrapper ul { margin-bottom: 35px; }
+  .flip-clock-wrapper { margin-bottom: -35px; }
 
-    /* Korekcja położenia pól zegara załamanych do nowej linii */
-    .flip-clock-wrapper ul { margin-bottom: 35px; }
-    .flip-clock-wrapper { margin-bottom: -35px; }
+  .clockpanel{
+    min-width:280px;
+    pointer-events: all;
+  }
 
- .header-banner{
-        background-color: #B3B3B3;
-        height:850px;
-      }
-
-      .clockpanel{
-      min-width:280px;
-      pointer-events: all;
-
-    }
-
-     .tablepanel{
+  .tablepanel{
     margin-left:05%; 
     width: 280px;
     pointer-events: all;
- }
+  }
+
  .clock{
-  margin-left: 10%;
-  margin-right:auto;
+    margin-left: 10%;
+    margin-right:auto;
  }
 
  .searchButtn{
-  margin-left: auto;
-  margin-right:auto;
+    margin-left: auto;
+    margin-right:auto;
  }
 
 }
-
-      .flip-clock-divider.minutes { clear: none;}
 
 
 @media only screen and (min-width: 550px) {
@@ -271,14 +254,11 @@ position: absolute;
 }
 
 @media screen and (max-width: 550px) {
-
     .flip-clock-divider.minutes { clear: left;} /* break clock at minutes */
-
 }
 
 @media only screen and (max-width: 380px) {
-  .large-4point5 {
-    width: 37.33333%; }
+  .large-4point5 { width: 37.33333%; }
 
   .tablepanel{
     margin-left: -6%;
