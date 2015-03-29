@@ -255,9 +255,7 @@
         });
       });
 
-      // $.get( "http://localhost:3000/api/stops", function( data ) {
-      $.get( "https://teamkirk.herokuapp.com/api/stops", function( data ) {
-
+      $.get( "/api/stops", function( data ) {
         kirk.data = data;
       });
     });
