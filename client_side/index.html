@@ -31,17 +31,17 @@
     <div class ="header-banner">
 
       <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Map Display Code  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-      <div class = "container">
+     
         <div class="mapRow" > 
-          <div class="hide-for-small">
-            <div id="map" > </div>
+          <div class="hide-for-small" style="height:100%">
+            <div id="map"> </div>
           </div>
-          <div class="show-for-small-only">
+          <div class="show-for-small-only" style="height:100%">
             <div id="map_small"></div>
             <img id ="map_static" src='img/edin.png' alt="static map background">
           </div>
         </div>
-      </div>
+      
       <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End Map Display Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
       
       <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Map Overlays ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
@@ -106,7 +106,7 @@
       <footer class="row">
         <div class="large-12 columns " style="background-color: #333333">
           <hr>
-          <div class="row">
+          <div class="row"  style="background-color: #333333">
             <div class="large-6 columns">
               <p style="color: white">© Copyright: Team Kirk - Enterprise Computing</p>
             </div>
@@ -258,23 +258,6 @@
       $.get( "http://localhost:3000/api/stops", function( data ) {
 
         kirk.data = data;
-
-        // $( "#busTable" ).dynatable(
-        //   {
-        //     dataset: {
-        //     records: data
-        //   },
-        //   features: {
-        //     pushState: true,
-        //     search: false,
-        //     paginate: true,
-        //     perPageSelect: false
-        //   }
-        // });
-        // var snap = $('#busTable').data('dynatable');
-        //   snap.paginationPage.set(1); // Go to page 1
-        //   snap.paginationPerPage.set(5);
-        //   snap.process();
       });
     });
 
