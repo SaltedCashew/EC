@@ -26,3 +26,14 @@
  - loc_finish: float,float (destination coordinates)
  - date: int (Unix time format)
  - time_mode: string (`LeaveAfter` or `ArriveBy`)
+
+##To-Do
+- (Mac) display marker
+- (Brad) display services info (verbose toggle)
+- (Sara) calculate the distance into km
+- (Paul) function to calculate the distance from current position to destination (routes)
+- (Brad) trigger timer after click on specific bus time 
+- (Sara) show the time table underneath the stops 
+- (Paul) Change table after submitted the postal code
+- Report
+- Cross-platform testing
