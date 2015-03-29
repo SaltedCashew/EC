@@ -126,6 +126,7 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin About Us Pop-up Information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
     <div id="about" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
       <h2 id="modalTitle">About Us</h2>
+      <p><img style = "margin-left=auto;margin-right=auto" src="img/Edinburgh5.jpg"/></p>
       <p class="lead">We are Team Kirk</p>
       <ul>
         <li> Matthew Hepburn - Team Leader - API</li>
@@ -197,7 +198,7 @@
     google.maps.event.addDomListener(window, 'load', initialize);</script>
     <!--~~~~~~~~~~~~~~~~~~~~~~ End MacMaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
- <!--~~~~~~~~~~~~~~~~~~~~~~ Test Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ <!--~~~~~~~~~~~~~~~~~~~~~~ Begin Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  <script type="text/javascript">
   $.get( "http://localhost:3000/api/stops", function( data ) {
     $( "#busTable" ).dynatable(
@@ -219,7 +220,7 @@
       snap.process();
   });
   </script>
- <!--~~~~~~~~~~~~~~~~~~~~~~ End Test Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ <!--~~~~~~~~~~~~~~~~~~~~~~ End Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  
     <script type="text/javascript">
       var clock;
