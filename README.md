@@ -7,7 +7,7 @@
 - Dependencies: Node.js, `$ npm install`
 - Start:  `$ node web.js`
 - Homepage: http://localhost:3000/
-- Map: http://localhost:3000/maps/maps.html
+- Map: http://localhost:3000/maps
 
 ##APIs
 - Stops (once a day): http://localhost:3000/api/stops
@@ -25,4 +25,4 @@
  - loc_start: float,float (starting location coordinates)
  - loc_finish: float,float (destination coordinates)
  - date: int (Unix time format)
- -time_mode: string (`LeaveAfter` or `ArriveBy`)
+ - time_mode: string (`LeaveAfter` or `ArriveBy`)

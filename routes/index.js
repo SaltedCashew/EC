@@ -11,7 +11,7 @@ router.get('/api/stops', cache('1 day'), function(req, res, next) {
     request('https://tfe-opendata.com/api/v1/stops', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log("success!");
-            res.json(JSON.parse(body));
+            res.json(JSON.parse(body)["stops"]);
         }
     });
 });
