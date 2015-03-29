@@ -157,14 +157,29 @@
           for(var i = 0; i<kirk.data.length; i++){
             var point = kirk.data[i]
             point.distance = kirk.calculateDistance(point.longitude, point.latitude)
-            console.log(point)
+            // console.log(point)
           }
+        },
+        filterMarkers: function(distance){
+          var filteredPoints = []
+
+          for( var i=0; i<kirk.data.length; i++){
+            var point = kirk.data[i]
+            if(kirk._isCloseEnough(point, distance)){
+              filteredPoints.push(point)
+            }
+          }
+          kirk.filtered = filteredPoints
+
+        },
+        _isCloseEnough: function(point, distance) {
+          return point.distance < distance;
         },
         changeTable: function(){
           $( "#busTable" ).dynatable(
             {
               dataset: {
-              records: kirk.data
+              records: kirk.filtered
             },
             features: {
               pushState: true,
@@ -203,6 +218,9 @@
           kirk.locLatitude = map["map"]["center"]["k"];
           kirk.locLongitude = map["map"]["center"]["D"];
           console.log("Actual: ",kirk);
+          kirk.init();
+          kirk.filterMarkers(0.5);
+          kirk.changeTable();
         },
         error: function(error){
           alert('Geolocation failed: '+error.message);
@@ -228,6 +246,9 @@
               });
               kirk.locLatitude = map["map"]["center"]["k"];
               kirk.locLongitude = map["map"]["center"]["D"];
+              kirk.init();
+              kirk.filterMarkers(0.5);
+              kirk.changeTable();
               console.log("Address",kirk);
             }
           }
@@ -271,24 +292,24 @@
  <!--~~~~~~~~~~~~~~~~~~~~~~ Begin Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  <script type="text/javascript">
   $.get( "http://localhost:3000/api/stops", function( data ) {
-    $( "#busTable" ).dynatable(
-      {
-        dataset: {
-        records: data
-      },
-      features: {
-        pushState: true,
-        search: false,
-        paginate: true,
-        perPageSelect: false
-      }
-    });
+  //   $( "#busTable" ).dynatable(
+  //     {
+  //       dataset: {
+  //       records: data
+  //     },
+  //     features: {
+  //       pushState: true,
+  //       search: false,
+  //       paginate: true,
+  //       perPageSelect: false
+  //     }
+  //   });
 
-    var snap = $('#busTable').data('dynatable');
-      snap.paginationPage.set(1); // Go to page 1
-      snap.paginationPerPage.set(5);
-      snap.process();
-  });
+  //   var snap = $('#busTable').data('dynatable');
+  //     snap.paginationPage.set(1); // Go to page 1
+  //     snap.paginationPerPage.set(5);
+  //     snap.process();
+  // });
   </script>
  <!--~~~~~~~~~~~~~~~~~~~~~~ End Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  
