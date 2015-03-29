@@ -84,7 +84,7 @@
               <thead>
                <tr>
                   <th class="info-table-title">Name</th>
-                  <th class="info-table-title">Latitude</th>
+                  <th class="info-table-title">Distance</th>
                 </tr>
               </thead>
               <tbody>
@@ -145,12 +145,51 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~ Start Gmaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
  
     <script type="text/javascript">
+      kirk={
+        calculateDistance: function(lon,lat){
+          lat2 = kirk.locLatitude
+          long2 = kirk.locLongitude
+          dis = Math.sqrt((lat - lat2) * (lat - lat2) + (lon - long2) * (lon - long2)) * 3960 * 3.141592/180
+          return dis;
+        },
+        init: function(){
+          for(var i = 0; i<kirk.data.length; i++){
+            var point = kirk.data[i]
+            point.distance = kirk.calculateDistance(point.longitude, point.latitude)
+            console.log(point)
+          }
+        },
+        changeTable: function(){
+          $( "#busTable" ).dynatable(
+            {
+              dataset: {
+              records: kirk.data
+            },
+            features: {
+              pushState: true,
+              search: false,
+              paginate: true,
+              perPageSelect: false
+            }
+          })
+
+          var snap = $('#busTable').data('dynatable');
+            snap.paginationPage.set(1); // Go to page 1
+            snap.paginationPerPage.set(5);
+            snap.process();
+        
+          }
+        
+      }
       $(document).ready(function(){
         map = new GMaps({
           div: '#map',
           lat: 55.952889,
           lng: -3.189591
       });
+      kirk.defLatitude = map["map"]["center"]["k"];
+      kirk.defLongitude = map["map"]["center"]["D"];
+
       GMaps.geolocate({
         success: function(position){
           map.setCenter(position.coords.latitude, position.coords.longitude);
@@ -160,6 +199,9 @@
             title: 'You are here.',
             infoWindow: { content: 'You are here!'    }
           });
+          kirk.locLatitude = map["map"]["center"]["k"];
+          kirk.locLongitude = map["map"]["center"]["D"];
+          console.log("Actual: ",kirk);
         },
         error: function(error){
           alert('Geolocation failed: '+error.message);
@@ -168,6 +210,9 @@
           alert("Your browser does not support geolocation");
         }
       });
+
+      console.log("Default: ",kirk);
+
       $('#addressBox').submit(function(e){
         e.preventDefault();
         GMaps.geocode({
@@ -180,9 +225,34 @@
                 lat: latlng.lat(),
                 lng: latlng.lng()
               });
+              kirk.locLatitude = map["map"]["center"]["k"];
+              kirk.locLongitude = map["map"]["center"]["D"];
+              console.log("Address",kirk);
             }
           }
         });
+      });
+
+      $.get( "http://localhost:3000/api/stops", function( data ) {
+
+        kirk.data = data;
+
+        // $( "#busTable" ).dynatable(
+        //   {
+        //     dataset: {
+        //     records: data
+        //   },
+        //   features: {
+        //     pushState: true,
+        //     search: false,
+        //     paginate: true,
+        //     perPageSelect: false
+        //   }
+        // });
+        // var snap = $('#busTable').data('dynatable');
+        //   snap.paginationPage.set(1); // Go to page 1
+        //   snap.paginationPerPage.set(5);
+        //   snap.process();
       });
     });
 
@@ -197,30 +267,6 @@
     google.maps.event.addDomListener(window, 'load', initialize);</script>
     <!--~~~~~~~~~~~~~~~~~~~~~~ End MacMaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
- <!--~~~~~~~~~~~~~~~~~~~~~~ Test Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
- <script type="text/javascript">
-  $.get( "http://localhost:3000/api/stops", function( data ) {
-    $( "#busTable" ).dynatable(
-      {
-        dataset: {
-        records: data
-      },
-      features: {
-        pushState: true,
-        search: false,
-        paginate: true,
-        perPageSelect: false
-      }
-    });
-
-    var snap = $('#busTable').data('dynatable');
-      snap.paginationPage.set(1); // Go to page 1
-      snap.paginationPerPage.set(5);
-      snap.process();
-  });
-  </script>
- <!--~~~~~~~~~~~~~~~~~~~~~~ End Test Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
- 
     <script type="text/javascript">
       var clock;
       $(document).ready(function() {
