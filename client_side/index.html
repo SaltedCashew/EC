@@ -80,52 +80,6 @@
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Info Table ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div class="large-5 small-12 columns" style="pointer-events:none">
           <div class="large-5 small-5 tablepanel">
-          <!--
-            <table id="busTable" class="info-table">
-              <thead>
-                <tr>
-                  <th class="info-table-title">Bus Stop</th>
-                  <th class="info-table-title">Distance</th>
-                </tr>
-              </thead>    
-              <tr>
-                <td class="info-table-cell">Stop 1</td>
-                <td class="info-table-cell">Distance 1</td>
-              </tr>
-              <tr>
-                <td class="info-table-cell">Stop 2</td>
-                <td class="info-table-cell">Distance 2</td>
-              </tr>
-              <tr>
-                <td >Stop 3</td>
-                <td class="info-table-cell">Distance 3</td>
-              </tr>
-              <tr>
-                <td >Stop 4</td>
-                <td class="info-table-cell">Distance 4</td>
-              </tr>
-              <tr>
-                <td >Stop 5</td>
-                <td class="info-table-cell">Distance 5</td>
-              </tr>
-              <tr>
-                <td class="info-table-cell">Stop 6</td>
-                <td class="info-table-cell">Distance 6</td>
-              </tr>
-              <tr>
-                <td class="info-table-cell">Stop 7</td>
-                <td class="info-table-cell">Distance 7</td>
-              </tr>
-              <tr>
-                <td >Stop 8</td>
-                <td class="info-table-cell">Distance 8</td>
-              </tr>
-              <tr>
-                <td >Stop 9</td>
-                <td class="info-table-cell">Distance 9</td>
-              </tr>
-            </table>
-            -->
             <table id="busTable" class="info-table">
               <thead>
                <tr>
@@ -137,151 +91,6 @@
               </tbody>
             </table>
           </div>
-
-          <pre id="json-records" style="display: none">
-        [
-{
-"stop_id": 95624796,
-"atco_code": "6290100024",
-"name": "Deans South",
-"identifier": null,
-"locality": null,
-"orientation": 90,
-"direction": "E",
-"latitude": 55.90064,
-"longitude": -3.39297,
-"destinations": [],
-"services": []
-},
-{
-"stop_id": 36234964,
-"atco_code": "6200200010",
-"name": "Mansfield Road",
-"identifier": null,
-"locality": "Balerno",
-"orientation": 329,
-"direction": "NW",
-"latitude": 55.8765,
-"longitude": -3.337341,
-"destinations": [
-"Balerno",
-"Tranent",
-"Whitecraig",
-"St Andrew Sq"
-],
-"services": [
-"44",
-"X44",
-"44A",
-"N44"
-]
-},
-{
-"stop_id": 36234954,
-"atco_code": "6200200020",
-"name": "Marchbank Gardens",
-"identifier": null,
-"locality": "Balerno",
-"orientation": 341,
-"direction": "N",
-"latitude": 55.87987,
-"longitude": -3.339086,
-"destinations": [
-"Tranent",
-"St Andrew Sq",
-"Whitecraig"
-],
-"services": [
-"44",
-"X44",
-"N44"
-]
-},
-{
-"stop_id": 36234956,
-"atco_code": "6200200030",
-"name": "Main Street",
-"identifier": null,
-"locality": "Balerno",
-"orientation": 297,
-"direction": "NW",
-"latitude": 55.88321,
-"longitude": -3.338706,
-"destinations": [
-"Tranent",
-"St Andrew Sq",
-"Whitecraig"
-],
-"services": [
-"44",
-"X44",
-"N44"
-]
-},
-{
-"stop_id": 36234959,
-"atco_code": "6200200035",
-"name": "Bavelaw Road",
-"identifier": null,
-"locality": "Balerno",
-"orientation": 359,
-"direction": "N",
-"latitude": 55.88404,
-"longitude": -3.337568,
-"destinations": [
-"Tranent",
-"St Andrew Sq",
-"Whitecraig"
-],
-"services": [
-"44",
-"X44",
-"N44"
-]
-},
-{
-"stop_id": 36234945,
-"atco_code": "6200200090",
-"name": "Bavelaw Rd bridge",
-"identifier": null,
-"locality": "Balerno",
-"orientation": 169,
-"direction": "S",
-"latitude": 55.88598,
-"longitude": -3.34003,
-"destinations": [
-"Tranent",
-"St Andrew Sq",
-"Whitecraig"
-],
-"services": [
-"44",
-"X44",
-"N44"
-]
-},
-{
-"stop_id": 36234939,
-"atco_code": "6200200100",
-"name": "Lanark Road West",
-"identifier": null,
-"locality": "Balerno",
-"orientation": 262,
-"direction": "W",
-"latitude": 55.88837,
-"longitude": -3.338452,
-"destinations": [
-"Tranent",
-"St Andrew Sq",
-"Whitecraig"
-],
-"services": [
-"44",
-"X44",
-"N44"
-]
-}]
-        </pre>
         </div> 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~End Info Table~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
@@ -333,7 +142,7 @@
 
 
      <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Scripts ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->     
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~ Start Gmaps Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~ Start Gmaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
  
     <script type="text/javascript">
       $(document).ready(function(){
@@ -378,55 +187,40 @@
     });
 
     </script>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~ End Gmaps Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!--~~~~~~~~~~~~~~~~~~~~~~~ End Gmaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-    <!--~~~~~~~~~~~~~~~~~~~~~ Start MacMaps Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!--~~~~~~~~~~~~~~~~~~~~~ Start MacMaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkAmuPTUzfsLsKVg4DUEQ4vFl89u_qNDk">
     </script>
     <script src="../maps/mapsts.js">
     google.maps.event.addDomListener(window, 'load', initialize);</script>
-    <!--~~~~~~~~~~~~~~~~~~~~~~ End MacMaps Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!--~~~~~~~~~~~~~~~~~~~~~~ End MacMaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
- <!--~~~~~~~~~~~~~~~~~~~~~~ Test Dynatable Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ <!--~~~~~~~~~~~~~~~~~~~~~~ Test Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  <script type="text/javascript">
-  var $records = $('#json-records'),
-    myRecords = JSON.parse($records.text());
-    $('#busTable').dynatable({
-      dataset: {
-      records: myRecords
-    },
-    features: {
-      pushState: true,
-          search: false,
-          paginate: true,
-          perPageSelect: false
-    }
+  $.get( "http://localhost:3000/api/stops", function( data ) {
+    $( "#busTable" ).dynatable(
+      {
+        dataset: {
+        records: data
+      },
+      features: {
+        pushState: true,
+        search: false,
+        paginate: true,
+        perPageSelect: false
+      }
+    });
+
+    var snap = $('#busTable').data('dynatable');
+      snap.paginationPage.set(1); // Go to page 1
+      snap.paginationPerPage.set(5);
+      snap.process();
   });
-     var snap = $('#json-records').data('dynatable');
-      snap.paginationPage.set(1); // Go to page 1
-      snap.paginationPerPage.set(5);
-      snap.process();
   </script>
- <!--~~~~~~~~~~~~~~~~~~~~~~ End Test Dynatable Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-    <!--~~~~~~~~~~~~~~~~~~~~~ Start Dynamic Table Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <script type="text/javascript">
-      $('#busTable').dynatable({
-        features: {
-          pushState: true,
-          search: false,
-          paginate: true,
-          perPageSelect: false
-      } });
-      var snap = $('#busTable').data('dynatable');
-      snap.paginationPage.set(1); // Go to page 1
-      snap.paginationPerPage.set(5);
-      snap.process();
-    </script>
-    <!--~~~~~~~~~~~~~~~~~~~~~ End Dynamic Table Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-
+ <!--~~~~~~~~~~~~~~~~~~~~~~ End Test Dynatable Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 
     <script type="text/javascript">
       var clock;
       $(document).ready(function() {
