@@ -80,7 +80,8 @@
         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Info Table ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
         <div class="large-5 small-12 columns" style="pointer-events:none">
           <div class="large-5 small-5 tablepanel">
-            <table id="bustable" class="info-table">
+          <!--
+            <table id="busTable" class="info-table">
               <thead>
                 <tr>
                   <th class="info-table-title">Bus Stop</th>
@@ -124,7 +125,50 @@
                 <td class="info-table-cell">Distance 9</td>
               </tr>
             </table>
+            -->
+            <table id="busTable" class="info-table">
+              <thead>
+               <tr>
+                  <th class="info-table-title">Band</th>
+                  <th class="info-table-title">Song</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
           </div>
+
+          <pre id="json-records">
+          [{
+            "band": "Weezer",
+            "song": "El Scorcho"
+          },
+          {
+            "band": "Chevelle",
+            "song": "Family System"
+          },
+          {
+            "band": "The Strokes",
+            "song": "Soma"
+          },
+          {
+            "band": "Of Monsters and Men",
+            "song": "Little Talks"
+          },
+          {
+            "band": "Bastille",
+            "song": "Pompei"
+          },
+          {
+            "band": "Zeds Dead",
+            "song": "Adrenaline"
+          },
+          {
+            "band": "Noel Gallagher",
+            "song": "If I Had a Gun"
+          }
+          ]
+        </pre>
         </div> 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~End Info Table~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
@@ -231,17 +275,38 @@
     google.maps.event.addDomListener(window, 'load', initialize);</script>
     <!--~~~~~~~~~~~~~~~~~~~~~~ End MacMaps Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
+ <!--~~~~~~~~~~~~~~~~~~~~~~ Test Dynatable Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ <script type="text/javascript">
+  var $records = $('#json-records'),
+    myRecords = JSON.parse($records.text());
+    $('#busTable').dynatable({
+      dataset: {
+      records: myRecords
+    },
+    features: {
+      pushState: true,
+          search: false,
+          paginate: true,
+          perPageSelect: false
+    }
+  });
+     var snap = $('#json-records').data('dynatable');
+      snap.paginationPage.set(1); // Go to page 1
+      snap.paginationPerPage.set(5);
+      snap.process();
+  </script>
+ <!--~~~~~~~~~~~~~~~~~~~~~~ End Test Dynatable Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <!--~~~~~~~~~~~~~~~~~~~~~ Start Dynamic Table Scipt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <script type="text/javascript">
-      $('#bustable').dynatable({
+      $('#busTable').dynatable({
         features: {
           pushState: true,
           search: false,
           paginate: true,
           perPageSelect: false
       } });
-      var snap = $('#bustable').data('dynatable');
+      var snap = $('#busTable').data('dynatable');
       snap.paginationPage.set(1); // Go to page 1
       snap.paginationPerPage.set(5);
       snap.process();
