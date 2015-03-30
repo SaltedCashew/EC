@@ -83,8 +83,8 @@
             <table id="busTable" class="info-table">
               <thead>
                <tr>
-                  <th class="info-table-title">Name</th>
-                  <th class="info-table-title">Distance</th>
+                  <th class="info-table-title" >Name</th>
+                  <th class="info-table-title" data-dynatable-column="distance">Distance (km)</th>
                 </tr>
               </thead>
               <tbody>
@@ -156,7 +156,8 @@
         init: function(){
           for(var i = 0; i<kirk.data.length; i++){
             var point = kirk.data[i]
-            point.distance = (kirk.calculateDistance(point.longitude, point.latitude)).toFixed(2);
+            point.distance = kirk.calculateDistance(point.longitude, point.latitude);
+            point.distance = (point.distance * 1.609344).toFixed(2);
 
             // console.log(point)
           }
