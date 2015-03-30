@@ -13,6 +13,12 @@
   margin-bottom: 0;
 }
 
+.aboutImg{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Panels */
 .panel {
   border-style: solid;
