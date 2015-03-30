@@ -248,6 +248,11 @@ a.dynatable-page-next a.dynatable-page-link {
     margin-left: auto;
     margin-right:auto;
  }
+ .header-banner{
+
+  min-height: 950px;
+
+}
 
 }
 
