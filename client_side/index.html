@@ -173,7 +173,7 @@
           td += '"';
         }
         return td + '>Serving:  ' + htmlAsString + '</td>';
-      };
+      }
       // End working copy of functions for writing table  --------------------------
 
       kirk={
@@ -225,9 +225,9 @@
           })
 
           var snap = $('#busTable').data('dynatable');
-            snap.paginationPage.set(1); // Go to page 1
-            snap.paginationPerPage.set(5);
-            snap.process();
+          snap.paginationPage.set(1); // Go to page 1
+          snap.paginationPerPage.set(5);
+          snap.process();
       }
      }
      
