@@ -3,6 +3,15 @@
  *CSS included in this file overrides founndation css 
  */
 
+ body{
+    background: #333333;
+ }
+
+ .dynatable-pagination-links {
+  float: right;
+  font-size: 12px;
+}
+
 .flip-clock-divider.minutes { clear: none;}
 
 .rowFull {
@@ -164,7 +173,7 @@
  .tablepanel{
     margin-left:40%; 
     margin-right:10%; 
-    margin-top: 35px;
+    margin-top: 5px;
     border: solid 10px #4b91f2;
     box-shadow: 5px 5px 5px #888888;
     border-radius: 25px;
