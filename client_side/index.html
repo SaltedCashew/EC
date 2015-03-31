@@ -255,6 +255,15 @@
           kirk.init();
           kirk.filterMarkers(0.5);
           kirk.changeTable();
+          for(var i = 0; i< kirk.filtered.length; i++){
+            map.addMarker({
+              lat: kirk.filtered[i]["latitude"],
+              lng: kirk.filtered[i]["longitude"],
+              icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
+              title: kirk.filtered[i]["name"],
+              infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.filtered[i]["services"]}
+            })
+          }
         },
         error: function(error){
           alert('Geolocation failed: '+error.message);
@@ -274,6 +283,7 @@
             if(status=='OK'){
               var latlng = results[0].geometry.location;
               map.setCenter(latlng.lat(), latlng.lng());
+              map.removeMarkers();
               map.addMarker({
                 lat: latlng.lat(),
                 lng: latlng.lng()
@@ -283,6 +293,15 @@
               kirk.init();
               kirk.filterMarkers(0.5);
               kirk.changeTable();
+              for(var i = 0; i< kirk.filtered.length; i++){
+                map.addMarker({
+                  lat: kirk.filtered[i]["latitude"],
+                  lng: kirk.filtered[i]["longitude"],
+                  icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
+                  title: kirk.filtered[i]["name"],
+                  infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.filtered[i]["services"]}
+                })
+              }
               console.log("Address",kirk);
             }
           }
