@@ -147,6 +147,35 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~ Start Gmaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
  
     <script type="text/javascript">
+
+       // Working copy of function to write the table differently -------------------
+      function ulWriter(rowIndex, record, columns, cellWriter) {
+        var tr = '';
+        // grab the record's attribute for each column
+        for (var i = 0, len = columns.length-1; i < len; i++) {
+          tr += cellWriter(columns[i], record);
+        }
+        td = editedCellWriter(columns[2], record);
+        return '<tr style="font-weight:bold">' + tr + '</tr><tr>'+td+'</td></tr>';
+      }
+
+      //use for writing the services row
+      function editedCellWriter(column, record) {
+        var html = column.attributeWriter(record),
+            td = '<td colspan="2"';
+        var htmlAsString = html.join(', ');
+        if (column.hidden || column.textAlign) {
+          td += ' style="max-width:113px;font-weight:normal;word-wrap:break-word;';
+          // keep cells aligned as their column headers are aligned
+          if (column.textAlign) {
+            td += 'text-align: ' + column.textAlign + ';';
+          }
+          td += '"';
+        }
+        return td + '>Serving:  ' + htmlAsString + '</td>';
+      };
+      // End working copy of functions for writing table  --------------------------
+
       kirk={
         calculateDistance: function(lon,lat){
           lat2 = kirk.locLatitude
@@ -199,41 +228,9 @@
             snap.paginationPage.set(1); // Go to page 1
             snap.paginationPerPage.set(5);
             snap.process();
-
-      // Working copy of function to write the table differently -------------------
-      function ulWriter(rowIndex, record, columns, cellWriter) {
-        var tr = '';
-        // grab the record's attribute for each column
-        for (var i = 0, len = columns.length-1; i < len; i++) {
-          tr += cellWriter(columns[i], record);
-        }
-      td = editedCellWriter(columns[2], record);
-      return '<tr style="font-weight:bold">' + tr + '</tr><tr>'+td+'</td></tr>';
       }
-
-      //use for writing the services row
-      function editedCellWriter(column, record) {
-        var html = column.attributeWriter(record),
-            td = '<td colspan="2"';
-        var htmlAsString = html.join(', ');
-
-        if (column.hidden || column.textAlign) {
-          td += ' style="max-width:113px;font-weight:normal;word-wrap:break-word;';
-
-          // keep cells aligned as their column headers are aligned
-          if (column.textAlign) {
-            td += 'text-align: ' + column.textAlign + ';';
-          }
-          td += '"';
-        }
-        return td + '>Serving:  ' + htmlAsString + '</td>';
-      };
-      // End working copy of functions for writing table  --------------------------
-
-
-        }
-        
-      }
+     }
+     
       $(document).ready(function(){
         map = new GMaps({
           div: '#map',
