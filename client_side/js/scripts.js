@@ -139,7 +139,7 @@ $(document).ready(function(){
           lng: kirk.filtered[i]["longitude"],
           icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
           title: kirk.filtered[i]["name"],
-          infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.filtered[i]["services"]}
+          infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
         })
       }
     },
@@ -175,7 +175,7 @@ $(document).ready(function(){
               lng: kirk.filtered[i]["longitude"],
               icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
               title: kirk.filtered[i]["name"],
-              infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.filtered[i]["services"]}
+              infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
             })
           }
         }
