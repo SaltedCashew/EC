@@ -81,6 +81,10 @@ kirk={
     function editedCellWriter(column, record) {
       var html = column.attributeWriter(record),
           td = '<td colspan="2"';
+
+      for (var i = 0, len = html.length; i < len; i++) {
+      	html[i] = '<span style="cursor: pointer;color:blue" onclick="pullTimeTables(this.innerHTML)">'+html[i]+'</span>';
+      } 
       var htmlAsString = html.join(', ');
 
       if (column.hidden || column.textAlign) {
@@ -95,7 +99,11 @@ kirk={
       return td + '>Serving:  ' + htmlAsString + '</td>';
     };
     // End working copy of functions for writing table  --------------------------
-  }        
+  }       
+}
+
+function pullTimeTables() {
+    alert("YOU CLICKED ME!");
 }
 
 var clock;
