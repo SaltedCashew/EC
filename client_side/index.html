@@ -27,10 +27,10 @@
       </div>
     </div>
     
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Map Section ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+    <!-- Begin Map Section --> 
     <div class ="header-banner">
 
-      <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Map Display Code  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+      <!-- Begin Map Display Code  -->
      
         <div class="mapRow" > 
           <div class="hide-for-small" style="height:100%">
@@ -42,12 +42,12 @@
           </div>
         </div>
       
-      <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End Map Display Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+      <!-- End Map Display Code -->
       
-      <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Map Overlays ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+      <!-- Begin Map Overlays --> 
       <div class="rowFull">
 
-        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Timer & Location Block ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <!-- Timer & Location Block -->
         <div class="large-7 small-5 columns" style="pointer-events: none">
           <br>
           <div class="large-4point5 small-7 columns timerLocPanel">
@@ -74,10 +74,10 @@
             </div>
           </div>
         </div>
-        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End Timer & Location Block ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <!-- End Timer & Location Block -->
         
 
-        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Info Table ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        <!-- Begin Info Table -->
         <div class="large-5 small-12 columns" style="pointer-events:none">
           <div class="large-5 small-5 tablepanel">
             <table id="busTable" class="info-table">
@@ -93,16 +93,16 @@
             </table>
           </div>
         </div> 
-        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~End Info Table~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- End Info Table -->
 
       </div>
-      <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End Map Overlays ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->         
+      <!-- End Map Overlays -->         
   
     </div>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End Map Section ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+    <!-- End Map Section --> 
             
 
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Lower / Footer Section ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+    <!-- Begin Lower / Footer Section --> 
     <div class = "bottom-back">
       <footer class="row">
         <div class="large-12 columns " style="background-color: #333333">
@@ -120,11 +120,11 @@
         </div>
       </footer> 
     </div>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End Lower / Footer Section ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+    <!-- End Lower / Footer Section --> 
 
 
 
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin About Us Pop-up Information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+    <!-- Begin About Us Pop-up Information --> 
     <div id="about" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
       <h2 id="modalTitle">About Us</h2>
       <p><img class = "aboutImg" src="img/Edinburgh5.jpg" alt="Picture of Edinburgh"/></p>
@@ -139,207 +139,29 @@
       <p class = "text-center">Thank you, and enjoy your travels on Transport for Edinburgh</p>
       <a class="close-reveal-modal" aria-label="Close">&#215;</a>
       </div>
-      <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End About Us Pop-up Information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+      <!-- End About Us Pop-up Information --> 
 
 
 
-     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin Scripts ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->     
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~ Start Gmaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~--> 
+     <!-- Begin Scripts -->     
  
-    <script type="text/javascript">
+    <script src="js/scripts.js"></script>
 
-       // Working copy of function to write the table differently -------------------
-      function ulWriter(rowIndex, record, columns, cellWriter) {
-        var tr = '';
-        // grab the record's attribute for each column
-        for (var i = 0, len = columns.length-1; i < len; i++) {
-          tr += cellWriter(columns[i], record);
-        }
-        td = editedCellWriter(columns[2], record);
-        return '<tr style="font-weight:bold">' + tr + '</tr><tr>'+td+'</td></tr>';
-      }
-
-      //use for writing the services row
-      function editedCellWriter(column, record) {
-        var html = column.attributeWriter(record),
-            td = '<td colspan="2"';
-        var htmlAsString = html.join(', ');
-        if (column.hidden || column.textAlign) {
-          td += ' style="max-width:113px;font-weight:normal;word-wrap:break-word;';
-          // keep cells aligned as their column headers are aligned
-          if (column.textAlign) {
-            td += 'text-align: ' + column.textAlign + ';';
-          }
-          td += '"';
-        }
-        return td + '>Serving:  ' + htmlAsString + '</td>';
-      }
-      // End working copy of functions for writing table  --------------------------
-
-      kirk={
-        calculateDistance: function(lon,lat){
-          lat2 = kirk.locLatitude
-          long2 = kirk.locLongitude
-          dis = Math.sqrt((lat - lat2) * (lat - lat2) + (lon - long2) * (lon - long2)) * 3960 * 3.141592/180
-          return dis;
-        },
-        init: function(){
-          for(var i = 0; i<kirk.data.length; i++){
-            var point = kirk.data[i]
-            point.distance = kirk.calculateDistance(point.longitude, point.latitude);
-            point.distance = (point.distance * 1.609344).toFixed(2);
-
-            // console.log(point)
-          }
-        },
-        filterMarkers: function(distance){
-          var filteredPoints = []
-
-          for( var i=0; i<kirk.data.length; i++){
-            var point = kirk.data[i]
-            if(kirk._isCloseEnough(point, distance)){
-              filteredPoints.push(point)
-            }
-          }
-          kirk.filtered = filteredPoints
-
-        },
-        _isCloseEnough: function(point, distance) {
-          return point.distance < distance;
-        },
-        changeTable: function(){
-          $( "#busTable" ).dynatable(
-            {
-              dataset: {
-              records: kirk.filtered
-            },
-            features: {
-              pushState: true,
-              search: false,
-              paginate: true,
-              perPageSelect: false
-            },
-            writers: {
-            _rowWriter: ulWriter
-             },
-          })
-
-          var snap = $('#busTable').data('dynatable');
-          snap.paginationPage.set(1); // Go to page 1
-          snap.paginationPerPage.set(5);
-          snap.process();
-      }
-     }
-     
-      $(document).ready(function(){
-        map = new GMaps({
-          div: '#map',
-          lat: 55.952889,
-          lng: -3.189591
-      });
-      kirk.defLatitude = map["map"]["center"]["k"];
-      kirk.defLongitude = map["map"]["center"]["D"];
-
-      GMaps.geolocate({
-        success: function(position){
-          map.setCenter(position.coords.latitude, position.coords.longitude);
-          map.addMarker({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-            title: 'You are here.',
-            infoWindow: { content: 'You are here!'    }
-          });
-          kirk.locLatitude = map["map"]["center"]["k"];
-          kirk.locLongitude = map["map"]["center"]["D"];
-          console.log("Actual: ",kirk);
-          kirk.init();
-          kirk.filterMarkers(0.5);
-          kirk.changeTable();
-          for(var i = 0; i< kirk.filtered.length; i++){
-            map.addMarker({
-              lat: kirk.filtered[i]["latitude"],
-              lng: kirk.filtered[i]["longitude"],
-              icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
-              title: kirk.filtered[i]["name"],
-              infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.filtered[i]["services"]}
-            })
-          }
-        },
-        error: function(error){
-          alert('Geolocation failed: '+error.message);
-        },
-        not_supported: function(){
-          alert("Your browser does not support geolocation");
-        }
-      });
-
-      console.log("Default: ",kirk);
-
-      $('#addressBox').submit(function(e){
-        e.preventDefault();
-        GMaps.geocode({
-          address: $('#postcode').val().trim(),
-          callback: function(results, status){
-            if(status=='OK'){
-              var latlng = results[0].geometry.location;
-              map.setCenter(latlng.lat(), latlng.lng());
-              map.removeMarkers();
-              map.addMarker({
-                lat: latlng.lat(),
-                lng: latlng.lng()
-              });
-              kirk.locLatitude = map["map"]["center"]["k"];
-              kirk.locLongitude = map["map"]["center"]["D"];
-              kirk.init();
-              kirk.filterMarkers(0.5);
-              kirk.changeTable();
-              for(var i = 0; i< kirk.filtered.length; i++){
-                map.addMarker({
-                  lat: kirk.filtered[i]["latitude"],
-                  lng: kirk.filtered[i]["longitude"],
-                  icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
-                  title: kirk.filtered[i]["name"],
-                  infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.filtered[i]["services"]}
-                })
-              }
-              console.log("Address",kirk);
-            }
-          }
-        });
-      });
-
-      $.get( "api/stops", function( data ) {
-        kirk.data = data;
-      });
-    });
-
-    </script>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~ End Gmaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-    <!--~~~~~~~~~~~~~~~~~~~~~ Start MacMaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!-- Start MacMaps Script -->
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkAmuPTUzfsLsKVg4DUEQ4vFl89u_qNDk">
     </script>
     <script src="../maps/mapsts.js">
     google.maps.event.addDomListener(window, 'load', initialize);</script>
-    <!--~~~~~~~~~~~~~~~~~~~~~~ End MacMaps Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!-- End MacMaps Script -->
  
-    <script type="text/javascript">
-      var clock;
-      $(document).ready(function() {
-        clock = $('.clock').FlipClock(3000, {
-        clockFace: 'MinuteCounter',
-        autoStart: true,
-        countdown: true
-      });  });
-    </script>
     <script src="js/flipclock/flipclock.min.js"></script>
     <script src="/js/vendor/fastclick.js"></script>
     <script src="/js/foundation.min.js"></script> 
     <script>
       $(document).foundation();
     </script>
-    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ End Scripts ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->     
+    <!-- End Scripts -->     
     <p style="display:none"> please work </p>
   </body>
 </html>
