@@ -30,7 +30,8 @@ kirk={
   parseServices: function(stop){
     var services = ""
     for (var i = 0; i<kirk.data[stop]["services"].length; i++){
-      services = services + kirk.data[stop]["services"][i] + ", "
+      stop_id = kirk.data[stop]["stop_id"];
+      services = services + "<a href =\"#\" + onClick=kirk.getTimetable(" + stop_id + ")>" + kirk.data[stop]["services"][i] + "</a>" + ", "
     }
     return services.substring(0,services.length-2);
   },
