@@ -102,8 +102,8 @@ kirk={
   }       
 }
 
-function pullTimeTables() {
-    alert("YOU CLICKED ME!");
+function pullTimeTables(text) {
+    alert('"YOU CLICKED ON BUS ' + text +'!"');
 }
 
 var clock;
