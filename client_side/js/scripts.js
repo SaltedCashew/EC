@@ -138,20 +138,23 @@ kirk={
           pushState: true,
           search: false,
           paginate: true,
-          perPageSelect: false
+          perPageSelect: false,
+          sort: true
         },
-        
+       
         writers: {
           _rowWriter: ulWriter
         }
+
     })
 
     var snap = $('#busTable').data('dynatable');
     snap.settings.dataset.originalRecords = kirk.filtered;
-    console.log(snap.sorts);
-    snap.sorts.add(1,"asc");
+   // console.log(snap.sorts);
+
     snap.paginationPage.set(1); // Go to page 1
     snap.paginationPerPage.set(5);
+    snap.sorts.add('distance',1)
     snap.process();
 
     // Writers for main bus info table -------------------
@@ -172,7 +175,6 @@ kirk={
       var html = column.attributeWriter(record),
           td = '<td';
       html = '<span style="cursor: pointer;color:blue" onclick="kirk.getTimetable('+record.stop_id+',' +record.distance +' )">'+html+'</span>';
-       console.log(record);
       if (column.hidden || column.textAlign) {
         td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
 
