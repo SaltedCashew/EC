@@ -1,9 +1,22 @@
 kirk={
   calculateDistance: function(lon,lat){
-    lat2 = kirk.locLatitude
-    long2 = kirk.locLongitude
-    dis = Math.sqrt((lat - lat2) * (lat - lat2) + (lon - long2) * (lon - long2)) * 3960 * 3.141592/180
+    // Haversine Method
+    var R = 6371; // Radius of the earth in km (3960 miles)
+    var dLat = kirk._degToRad(kirk.locLatitude-lat);  // deg2rad below
+    var dLon = kirk._degToRad(kirk.locLongitude-lon); 
+    var lat1 = kirk._degToRad(lat)
+    var lat2 = kirk._degToRad(kirk.locLatitude)
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2)
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+
+    var dis = R * c; // Distance in km
     return dis;
+  },
+
+  _degToRad: function(d) {
+    return d * (Math.PI/180);
   },
 
   init: function(){
@@ -43,8 +56,36 @@ kirk={
   getTimetable: function(service) {
     $.get( "api/timetable/"+service, function( data ) {
       console.log("Timetable", data);
+      kirk.timetable = data.departures.slice(0, 10);
+      kirk.displayTimetable();
       return data;
     });
+  },
+
+  expandTable: function(){
+    $(".has-expansion").click(function() {
+      console.log("expansion");
+      $(this).toggleClass("showing");
+      $(this).parent('legend').siblings('.expansion').slideToggle(500);
+    });
+  },
+
+  displayTimetable: function(){
+    $( "#timeTable" ).dynatable(
+      {
+        features: {
+          pushState: true,
+          search: false,
+          paginate: true,
+          perPageSelect: false
+        }
+    })
+
+    var snaptime = $('#timeTable').data('dynatable');
+    snaptime.settings.dataset.originalRecords = kirk.timetable;
+    snaptime.paginationPage.set(1); // Go to page 1
+    snaptime.paginationPerPage.set(5);
+    snaptime.process();
   },
 
   changeTable: function(){
@@ -56,13 +97,16 @@ kirk={
           paginate: true,
           perPageSelect: false
         },
+        
         writers: {
-        _rowWriter: ulWriter
-      },
+          _rowWriter: ulWriter
+        }
     })
 
     var snap = $('#busTable').data('dynatable');
     snap.settings.dataset.originalRecords = kirk.filtered;
+    console.log(snap.sorts);
+    snap.sorts.add(1,"asc");
     snap.paginationPage.set(1); // Go to page 1
     snap.paginationPerPage.set(5);
     snap.process();
@@ -71,23 +115,21 @@ kirk={
     function ulWriter(rowIndex, record, columns, cellWriter) {
       var tr = '';
       // grab the record's attribute for each column
-      for (var i = 0, len = columns.length-1; i < len; i++) {
-        tr += cellWriter(columns[i], record);
-      }
-      td = editedCellWriter(columns[2], record);
-      return '<tr style="font-weight:bold">' + tr + '</tr><tr>'+td+'</td></tr>';
+     
+        tr += editedCellWriter(columns[0], record);
+       
+        tr += cellWriter(columns[1], record);
+       
+      return '<tr style="font-weight:bold">' + tr + '</tr>';
     }
 
     //use for writing the services row
     function editedCellWriter(column, record) {
       var html = column.attributeWriter(record),
-          td = '<td colspan="2"';
-
-      for (var i = 0, len = html.length; i < len; i++) {
-      	html[i] = '<span style="cursor: pointer;color:blue" onclick="pullTimeTables(this.innerHTML)">'+html[i]+'</span>';
-      } 
-      var htmlAsString = html.join(', ');
-
+          td = '<td';
+      var stopID = record.stop_id;
+      html = '<span style="cursor: pointer;color:blue" onclick="kirk.getTimetable('+stopID+')">'+html+'</span>';
+       
       if (column.hidden || column.textAlign) {
         td += ' style="max-width:113px;font-weight:normal;word-wrap:break-word;';
 
@@ -97,15 +139,17 @@ kirk={
         }
         td += '"';
       }
-      return td + '>Serving:  ' + htmlAsString + '</td>';
+      return td +'>' + html + '</td>';
     };
     // End working copy of functions for writing table  --------------------------
   }       
 }
 
-function pullTimeTables(text) {
-    alert('"YOU CLICKED ON BUS ' + text +'!"');
-}
+/*function pullTimeTables(stop) {
+   // alert('"YOU CLICKED ON BUS ' +stop+'!"');
+  kirk.getTimetable(stop);
+
+}*/
 
 var clock;
 $(document).ready(function(){
@@ -126,38 +170,38 @@ $(document).ready(function(){
 
   $.get( "api/stops", function( data ) {
     kirk.data = data;
-  });
-
-  GMaps.geolocate({
-    success: function(position){
-      map.setCenter(position.coords.latitude, position.coords.longitude);
-      map.addMarker({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-        title: 'You are here.',
-        infoWindow: { content: 'You are here!'    }
-      });
-      kirk.locLatitude = map["map"]["center"]["k"];
-      kirk.locLongitude = map["map"]["center"]["D"];
-      kirk.init();
-      kirk.filterMarkers(0.5);
-      kirk.changeTable();
-      for(var i = 0; i< kirk.filtered.length; i++){
+  }).then(function(){
+    GMaps.geolocate({
+      success: function(position){
+        map.setCenter(position.coords.latitude, position.coords.longitude);
         map.addMarker({
-          lat: kirk.filtered[i]["latitude"],
-          lng: kirk.filtered[i]["longitude"],
-          icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
-          title: kirk.filtered[i]["name"],
-          infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
-        })
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          title: 'You are here.',
+          infoWindow: { content: 'You are here!'    }
+        });
+        kirk.locLatitude = map["map"]["center"]["k"];
+        kirk.locLongitude = map["map"]["center"]["D"];
+        kirk.init();
+        kirk.filterMarkers(0.5);
+        kirk.changeTable();
+        for(var i = 0; i< kirk.filtered.length; i++){
+          map.addMarker({
+            lat: kirk.filtered[i]["latitude"],
+            lng: kirk.filtered[i]["longitude"],
+            icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
+            title: kirk.filtered[i]["name"],
+            infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
+          })
+        }
+      },
+      error: function(error){
+        alert('Geolocation failed: '+error.message);
+      },
+      not_supported: function(){
+        alert("Your browser does not support geolocation");
       }
-    },
-    error: function(error){
-      alert('Geolocation failed: '+error.message);
-    },
-    not_supported: function(){
-      alert("Your browser does not support geolocation");
-    }
+    });
   });
 
   $('#addressBox').submit(function(e){
