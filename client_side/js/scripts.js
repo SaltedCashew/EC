@@ -42,9 +42,10 @@ kirk={
 
   parseServices: function(stop){
     var services = ""
-    for (var i = 0; i<kirk.data[stop]["services"].length; i++){
-      stop_id = kirk.data[stop]["stop_id"];
-      services = services + "<a href =\"#\" + onClick=kirk.getTimetable(" + stop_id + ")>" + kirk.data[stop]["services"][i] + "</a>" + ", "
+    for (var i = 0; i<kirk.filtered[stop]["services"].length; i++){
+      stop_id = kirk.filtered[stop]["stop_id"];
+      stopDistance = kirk.filtered[stop]["distance"];
+      services = services + "<a href =\"#\" + onClick=kirk.getTimetable(" + stop_id +','+stopDistance+ ")>" + kirk.filtered[stop]["services"][i] + "</a>" + ", "
     }
     return services.substring(0,services.length-2);
   },
@@ -53,10 +54,12 @@ kirk={
     return point.distance < distance;
   },
 
-  getTimetable: function(service) {
+  getTimetable: function(service, distance) {
     $.get( "api/timetable/"+service, function( data ) {
       console.log("Timetable", data);
       kirk.timetable = data.departures.slice(0, 10);
+      kirk.timeTableStopID = service;
+      kirk.timeTableStopDistance = distance;
       kirk.displayTimetable();
       return data;
     });
@@ -78,6 +81,10 @@ kirk={
           search: false,
           paginate: true,
           perPageSelect: false
+        },
+
+         writers: {
+          _rowWriter: timeWriter
         }
     })
 
@@ -86,6 +93,42 @@ kirk={
     snaptime.paginationPage.set(1); // Go to page 1
     snaptime.paginationPerPage.set(5);
     snaptime.process();
+
+
+    // Start Writers for timetable info table -------------------
+    function timeWriter(rowIndex, record, columns, cellWriter) {
+      var tr = '';
+      // grab the record's attribute for each column
+        console.log(columns);
+        tr += timeCellWriter(columns[0], columns[1], record);
+       
+        tr += cellWriter(columns[1], record);
+       
+      return '<tr style="font-weight:bold">' + tr + '</tr>';
+    }
+
+    //use for writing the services tags
+    function timeCellWriter(column, timeInfo, record) {
+      var html = column.attributeWriter(record),
+          td = '<td';
+          var time = console.log(record.time);
+      html = '<span style="cursor: pointer;color:blue" onclick="startTimer('+record.distance+','+time+   ')">'+html+'</span>';
+       
+      if (column.hidden || column.textAlign) {
+        td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
+
+        // keep cells aligned as their column headers are aligned
+        if (column.textAlign) {
+          td += 'text-align: ' + column.textAlign + ';';
+        }
+        td += '"';
+      }
+      return td +'>' + html + '</td>';
+    };
+    // End Writers for timetable info table  --------------------------         
+
+
+
   },
 
   changeTable: function(){
@@ -111,27 +154,27 @@ kirk={
     snap.paginationPerPage.set(5);
     snap.process();
 
-    // Working copy of function to write the table differently -------------------
+    // Writers for main bus info table -------------------
     function ulWriter(rowIndex, record, columns, cellWriter) {
       var tr = '';
       // grab the record's attribute for each column
      
         tr += editedCellWriter(columns[0], record);
+
        
         tr += cellWriter(columns[1], record);
        
       return '<tr style="font-weight:bold">' + tr + '</tr>';
     }
 
-    //use for writing the services row
+    //use for writing the Stop Names row
     function editedCellWriter(column, record) {
       var html = column.attributeWriter(record),
           td = '<td';
-      var stopID = record.stop_id;
-      html = '<span style="cursor: pointer;color:blue" onclick="kirk.getTimetable('+stopID+')">'+html+'</span>';
-       
+      html = '<span style="cursor: pointer;color:blue" onclick="kirk.getTimetable('+record.stop_id+',' +record.distance +' )">'+html+'</span>';
+       console.log(record);
       if (column.hidden || column.textAlign) {
-        td += ' style="max-width:113px;font-weight:normal;word-wrap:break-word;';
+        td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
 
         // keep cells aligned as their column headers are aligned
         if (column.textAlign) {
@@ -141,21 +184,36 @@ kirk={
       }
       return td +'>' + html + '</td>';
     };
-    // End working copy of functions for writing table  --------------------------
-  }       
+    // End Writers for main bus info table  --------------------------
+   
+
+
+  } 
+  
+    
 }
 
-/*function pullTimeTables(stop) {
-   // alert('"YOU CLICKED ON BUS ' +stop+'!"');
-  kirk.getTimetable(stop);
+function startTimer(distance, time){
+  var averagekph = 5;
+var timeToGetThere = (kirk.timeTableStopDistance/averagekph)*3600;
+var timeToGo = timeToGetThere;
 
-}*/
+console.log(timeToGo);
+
+var clock = $('.clock').FlipClock(timeToGo, {
+    clockFace: 'MinuteCounter',
+    autoStart: true,
+    countdown: true
+  });
+
+}
+
 
 var clock;
 $(document).ready(function(){
-  clock = $('.clock').FlipClock(3000, {
+  clock = $('.clock').FlipClock(0000, {
     clockFace: 'MinuteCounter',
-    autoStart: true,
+    autoStart: false,
     countdown: true
   });
 
