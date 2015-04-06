@@ -152,6 +152,7 @@ kirk={
     function timeCellWriter(column, timeInfo, record) {
       var html = column.attributeWriter(record),
       td = '<td';
+      var time = console.log(record.time);
       var d = new Date();
       var n = d.toDateString();
       var timeString = n + ' ' + record.time;
