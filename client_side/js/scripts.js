@@ -152,7 +152,6 @@ kirk={
     function timeCellWriter(column, timeInfo, record) {
       var html = column.attributeWriter(record),
       td = '<td';
-      var time = console.log(record.time);
       var d = new Date();
       var n = d.toDateString();
       var timeString = n + ' ' + record.time;
@@ -240,9 +239,17 @@ kirk={
 
 function startTimer(time,service,unixtime){
   curr_loc = kirk.locLatitude+","+kirk.locLongitude;
-  var d = new Date(unixtime*1000);
-  upcomingTime = d.getHours() + ':' + d.getMinutes();
-  console.log("Upcoming Time",upcomingTime);
+  var timetable_date = new Date(unixtime*1000);
+  var timetable_secs = timetable_date.getSeconds() + (60 * timetable_date.getMinutes()) + (60 * 60 * timetable_date.getHours());
+
+  var current_date = new Date();
+  var curr_secs = current_date.getSeconds() + (60 * current_date.getMinutes()) + (60 * 60 * current_date.getHours());
+
+  var leave_offset = 60; // Time taken to leave location
+  var wait_offset = 60; // Estimated waiting time
+  
+  var audio = new Audio('alert.mp3');
+
 
   for( var i=0; i<kirk.filtered.length; i++){
       if(kirk.filtered[i]["stop_id"] == service){
@@ -252,19 +259,29 @@ function startTimer(time,service,unixtime){
   }
   $.get( "directions/time/"+curr_loc+"/"+dest_loc, function( data ) {
 
-    console.log("directions",data["routes"]["0"]["legs"]["0"]["duration"]["value"]);
-  });
-    var averagekph = 5;
-  var timeToGetThere = (kirk.timeTableStopDistance/averagekph)*3600;
-  var timeToGo = timeToGetThere;
+    var traveling_time = data["routes"]["0"]["legs"]["0"]["duration"]["value"];
 
-  console.log(timeToGo);
+    timeToGo = timetable_secs - curr_secs -leave_offset - traveling_time - wait_offset;
 
-  var clock = $('.clock').FlipClock(timeToGo, {
+      var clock = $('.clock').FlipClock(timeToGo, {
       clockFace: 'MinuteCounter',
       autoStart: true,
-      countdown: true
+      countdown: true,
+      callbacks: {
+        interval: function() {
+          var time = this.factory.getTime().time;
+          if (time == 0){
+            audio.play();
+            alert("You should be leaving your location now to catch your bus on time.")
+          }
+        }
+      }
     });
+
+  });
+
+
+
 
 }
 
