@@ -54,15 +54,57 @@ kirk={
     return point.distance < distance;
   },
 
-  getTimetable: function(service, distance) {
-    $.get( "api/timetable/"+service, function( data ) {
-      console.log("Timetable", data);
-      kirk.timetable = data.departures.slice(0, 10);
-      kirk.timeTableStopID = service;
+  getTimetable: function(stop_id, distance) {
+    $.get( "api/timetable/"+stop_id, function( data ) {
+      //console.log("Timetable", data);
+      var timetable = [];
+      for (var i = 0; i<data.departures.length; i++){
+        if (kirk.compareTime(data.departures[i]["time"]) && data.departures[i]["day"] == kirk.getDay()){
+          timetable.push(data.departures[i]);
+        }
+      }
+      kirk.timetable = timetable.slice(0, 10);
+      kirk.timeTableStopID = stop_id;
       kirk.timeTableStopDistance = distance;
       kirk.displayTimetable();
       return data;
     });
+  },
+  compareTime: function(time){ //checks current time with input, returns true if the time hasn't passed and false otherwise.
+    var d = new Date();
+    curr_hours = d.getHours();
+    curr_minutes = d.getMinutes();
+    
+    time_hours = time.substring(0,time.length-3);
+    time_minutes = time.substring(time.length-2,time.length);
+    if (curr_hours > time_hours){
+      return false;
+    }
+    else if (curr_hours == time_hours){
+      if (curr_minutes > time_minutes){
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+    else{
+      return true;
+    }
+  },
+  getDay: function(){
+    var d = new Date();
+    day = d.getDay();
+
+    if (day == 6){
+      return 5;
+    }
+    else if (day == 0){
+      return 6;
+    }
+    else {
+      return 0;
+    }
   },
 
   expandTable: function(){
@@ -99,7 +141,6 @@ kirk={
     function timeWriter(rowIndex, record, columns, cellWriter) {
       var tr = '';
       // grab the record's attribute for each column
-        console.log(columns);
         tr += timeCellWriter(columns[0], columns[1], record);
        
         tr += cellWriter(columns[1], record);
@@ -110,10 +151,14 @@ kirk={
     //use for writing the services tags
     function timeCellWriter(column, timeInfo, record) {
       var html = column.attributeWriter(record),
-          td = '<td';
-          var time = console.log(record.time);
-      html = '<span style="cursor: pointer;color:blue" onclick="startTimer('+record.distance+','+time+   ')">'+html+'</span>';
-       
+      td = '<td';
+      var time = console.log(record.time);
+      var d = new Date();
+      var n = d.toDateString();
+      var timeString = n + ' ' + record.time;
+      var unixtime = Date.parse(timeString)/1000; // A Number, representing the number of milliseconds between the specified date-time and midnight January 1, 1970 (/1000)
+
+      html = '<span style="cursor: pointer;color:blue" onclick="startTimer('+time+','+kirk.timeTableStopID+','+unixtime + ')">'+html+'</span>';
       if (column.hidden || column.textAlign) {
         td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
 
@@ -146,7 +191,7 @@ kirk={
           _rowWriter: ulWriter
         }
 
-    })
+    });
 
     var snap = $('#busTable').data('dynatable');
     snap.settings.dataset.originalRecords = kirk.filtered;
@@ -173,43 +218,55 @@ kirk={
     //use for writing the Stop Names row
     function editedCellWriter(column, record) {
       var html = column.attributeWriter(record),
-          td = '<td';
+      td = '<td';
       html = '<span style="cursor: pointer;color:blue" onclick="kirk.getTimetable('+record.stop_id+',' +record.distance +' )">'+html+'</span>';
-      if (column.hidden || column.textAlign) {
-        td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
+          if (column.hidden || column.textAlign) {
+            td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
 
-        // keep cells aligned as their column headers are aligned
-        if (column.textAlign) {
-          td += 'text-align: ' + column.textAlign + ';';
-        }
-        td += '"';
-      }
-      return td +'>' + html + '</td>';
-    };
+            // keep cells aligned as their column headers are aligned
+            if (column.textAlign) {
+              td += 'text-align: ' + column.textAlign + ';';
+            }
+            td += '"';
+          }
+          return td +'>' + html + '</td>';
+    }
     // End Writers for main bus info table  --------------------------
-   
-
 
   } 
   
     
 }
 
-function startTimer(distance, time){
-  var averagekph = 5;
-var timeToGetThere = (kirk.timeTableStopDistance/averagekph)*3600;
-var timeToGo = timeToGetThere;
+function startTimer(time,service,unixtime){
+  curr_loc = kirk.locLatitude+","+kirk.locLongitude;
+  var d = new Date(unixtime*1000);
+  upcomingTime = d.getHours() + ':' + d.getMinutes();
+  console.log("Upcoming Time",upcomingTime);
 
-console.log(timeToGo);
+  for( var i=0; i<kirk.filtered.length; i++){
+      if(kirk.filtered[i]["stop_id"] == service){
+        dest_loc = kirk.filtered[i]["latitude"]+","+kirk.filtered[i]["longitude"];
+        break;
+      }
+  }
+  $.get( "directions/time/"+curr_loc+"/"+dest_loc, function( data ) {
 
-var clock = $('.clock').FlipClock(timeToGo, {
-    clockFace: 'MinuteCounter',
-    autoStart: true,
-    countdown: true
+    console.log("directions",data["routes"]["0"]["legs"]["0"]["duration"]["value"]);
   });
+    var averagekph = 5;
+  var timeToGetThere = (kirk.timeTableStopDistance/averagekph)*3600;
+  var timeToGo = timeToGetThere;
+
+  console.log(timeToGo);
+
+  var clock = $('.clock').FlipClock(timeToGo, {
+      clockFace: 'MinuteCounter',
+      autoStart: true,
+      countdown: true
+    });
 
 }
-
 
 var clock;
 $(document).ready(function(){
