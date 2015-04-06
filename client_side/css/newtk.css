@@ -127,6 +127,7 @@
   background-color: #4b91f2;
 }
 
+
 .info-table{
   width: 100%;
   text-align: center;
@@ -151,6 +152,20 @@
   min-width: 220px;
 
 } 
+
+.timetable-header{
+  text-align: center;
+  height: 50px;
+}
+
+.timetable-header a{
+  color: #000000;
+}
+
+.timetable-header a:hover{
+  color: #000000;
+  text-decoration: underline;
+}
 
 .clock{
   margin-left:auto; 
@@ -293,4 +308,12 @@ a.dynatable-page-next a.dynatable-page-link {
     margin-left: -15%;
     margin-right: auto;
   }
+}
+
+.expansion {
+  display: none;
+}
+
+.expansion.showing {
+  display: block;
 }
