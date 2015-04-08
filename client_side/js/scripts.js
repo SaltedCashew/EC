@@ -20,6 +20,9 @@ kirk={
   },
 
   init: function(){
+    kirk.timetable = [];
+    kirk.displayTimetable();
+
     for(var i = 0; i<kirk.data.length; i++){
       var point = kirk.data[i]
       point.distance = kirk.calculateDistance(point.longitude, point.latitude);
@@ -71,9 +74,12 @@ kirk={
     });
   },
   compareTime: function(time){ //checks current time with input, returns true if the time hasn't passed and false otherwise.
+    //buiding in a 10 minute buffer - return false if current time less than 10 minutes prior to input
     var d = new Date();
-    curr_hours = d.getHours();
-    curr_minutes = d.getMinutes();
+    var buffer = 0; //10 minute buffer update: I've set it to zero for now since I'm testing a different implementation.
+    var bufferDate = new Date(d.getTime() + buffer*60000);
+    curr_hours = bufferDate.getHours();
+    curr_minutes = bufferDate.getMinutes();
     
     time_hours = time.substring(0,time.length-3);
     time_minutes = time.substring(time.length-2,time.length);
@@ -148,6 +154,34 @@ kirk={
       return '<tr style="font-weight:bold">' + tr + '</tr>';
     }
 
+    function checkWalkingTime(unixtime){
+      /* This function is used to check if the user can make it to the bus stop
+       * If the user can't, return false and it'll be printed as red on the timetable, otherwise return true
+       */
+      var averagekph = 5;
+      var timeToGetThere = (kirk.timeTableStopDistance/averagekph)*3600;
+      var timeToGo = timeToGetThere + 60;
+
+      var timetable_date = new Date(unixtime*1000);
+      var timetable_secs = timetable_date.getSeconds() + (60 * timetable_date.getMinutes()) + (60 * 60 * timetable_date.getHours());
+
+      var current_date = new Date();
+      var curr_secs = current_date.getSeconds() + (60 * current_date.getMinutes()) + (60 * 60 * current_date.getHours());
+
+      var leave_offset = 60; // Time taken to leave location
+      var wait_offset = 60; // Estimated waiting time
+
+      console.log(curr_secs,timetable_secs);
+
+      if (curr_secs + timeToGo + leave_offset + wait_offset >= timetable_secs){
+        return false;
+      }
+      else {
+        return true;
+      }
+      console.log("timeToGo",timeToGo);
+    }
+
     //use for writing the services tags
     function timeCellWriter(column, timeInfo, record) {
       var html = column.attributeWriter(record),
@@ -157,8 +191,13 @@ kirk={
       var n = d.toDateString();
       var timeString = n + ' ' + record.time;
       var unixtime = Date.parse(timeString)/1000; // A Number, representing the number of milliseconds between the specified date-time and midnight January 1, 1970 (/1000)
+      if(checkWalkingTime(unixtime)){
+        html = '<span style="cursor: pointer;color:blue" onclick="startTimer('+time+','+kirk.timeTableStopID+','+unixtime + ')">'+html+'</span>';
+      }
+      else{
+        html = '<span style="cursor: pointer;color:red" onclick="alert(\'Warning. It may not be possible to catch the bus for this time.\')">'+html+'</span>';
+      }
 
-      html = '<span style="cursor: pointer;color:blue" onclick="startTimer('+time+','+kirk.timeTableStopID+','+unixtime + ')">'+html+'</span>';
       if (column.hidden || column.textAlign) {
         td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
 
@@ -265,7 +304,7 @@ function startTimer(time,service,unixtime){
     timeToGo = timetable_secs - curr_secs -leave_offset - traveling_time - wait_offset;
 
       var clock = $('.clock').FlipClock(timeToGo, {
-      clockFace: 'MinuteCounter',
+      clockFace: 'SecondCounter',
       autoStart: true,
       countdown: true,
       callbacks: {

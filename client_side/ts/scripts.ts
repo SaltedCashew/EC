@@ -20,6 +20,9 @@ kirk={
   },
 
   init: function(){
+    kirk.timetable = [];
+    kirk.displayTimetable();
+
     for(var i = 0; i<kirk.data.length; i++){
       var point = kirk.data[i]
       point.distance = kirk.calculateDistance(point.longitude, point.latitude);
@@ -45,13 +48,29 @@ kirk={
     for (var i = 0; i<kirk.filtered[stop]["services"].length; i++){
       stop_id = kirk.filtered[stop]["stop_id"];
       stopDistance = kirk.filtered[stop]["distance"];
-      services = services + "<a href =\"#\" + onClick=kirk.getTimetable(" + stop_id +','+stopDistance+ ")>" + kirk.filtered[stop]["services"][i] + "</a>" + ", "
+      services = services + "<a href =\"#\" + onClick=kirk.getTimetableService(" + stop_id +','+stopDistance+','+kirk.filtered[stop]["services"][i]+")>" + kirk.filtered[stop]["services"][i] + "</a>" + ", "
     }
     return services.substring(0,services.length-2);
   },
 
   _isCloseEnough: function(point, distance) {
     return point.distance < distance;
+  },
+  getTimetableService: function(stop_id, distance,service) {
+    $.get( "api/timetable/"+stop_id, function( data ) {
+      console.log("Timetable", data);
+      var timetable = [];
+      for (var i = 0; i<data.departures.length; i++){
+        if (kirk.compareTime(data.departures[i]["time"]) && data.departures[i]["day"] == kirk.getDay() && data.departures[i]["service_name"] == service){
+          timetable.push(data.departures[i]);
+        }
+      }
+      kirk.timetable = timetable.slice(0, 10);
+      kirk.timeTableStopID = stop_id;
+      kirk.timeTableStopDistance = distance;
+      kirk.displayTimetable();
+      return data;
+    });
   },
 
   getTimetable: function(stop_id, distance) {
@@ -302,7 +321,7 @@ function startTimer(time,service,unixtime){
     console.log(timeToGo);
 
       var clock = $('.clock').FlipClock(timeToGo, {
-      clockFace: 'MinuteCounter',
+      clockFace: 'SecondCounter',
       autoStart: true,
       countdown: true,
       callbacks: {
@@ -324,6 +343,21 @@ function startTimer(time,service,unixtime){
 }
 
 var clock;
+var stops_markers = []; // collection of stop markers
+function addStopsMarkers(marker) {
+  stops_markers.push(marker);
+}
+function removeAllStopsMarkers(){
+  stops_markers = [];
+}
+function clearMarkers(){
+  for(var i = 0; i< stops_markers.length; i++){
+    stops_markers[i].setMap(null);
+  }
+  stops_markers = [];
+  return;
+}
+
 $(document).ready(function(){
   clock = $('.clock').FlipClock(0000, {
     clockFace: 'MinuteCounter',
@@ -349,8 +383,53 @@ $(document).ready(function(){
         map.addMarker({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
+          draggable: true,
           title: 'You are here.',
+          dragend: function(e) {     
+            latitude = this.getPosition().lat();
+            longitude = this.getPosition().lng();
+            map.removePolygons();
+            map.drawCircle({
+              lat: latitude,
+              lng: longitude,
+              radius: 500,  //500 meters
+              strokeColor: '#003366',
+              strokeOpacity: 1,
+              strokeWeight: 2,
+              fillColor: '#0f69b4',
+              fillOpacity: 0.35
+            });
+
+            clearMarkers();
+
+            kirk.locLatitude = latitude;
+            kirk.locLongitude = longitude;
+            kirk.init();
+            kirk.filterMarkers(0.5);
+            kirk.changeTable();
+
+            for(var i = 0; i< kirk.filtered.length; i++){
+              var stops_marker_move = map.addMarker({
+                lat: kirk.filtered[i]["latitude"],
+                lng: kirk.filtered[i]["longitude"],
+                icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
+                title: kirk.filtered[i]["name"],
+                infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
+              });
+              addStopsMarkers(stops_marker_move);
+            }
+          },
           infoWindow: { content: 'You are here!'    }
+        });
+        map.drawCircle({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          radius: 500,  //350 meters
+          strokeColor: '#003366',
+          strokeOpacity: 1,
+          strokeWeight: 2,
+          fillColor: '#0f69b4',
+          fillOpacity: 0.35
         });
         kirk.locLatitude = map["map"]["center"]["k"];
         kirk.locLongitude = map["map"]["center"]["D"];
@@ -358,13 +437,14 @@ $(document).ready(function(){
         kirk.filterMarkers(0.5);
         kirk.changeTable();
         for(var i = 0; i< kirk.filtered.length; i++){
-          map.addMarker({
+          var stop_marker = map.addMarker({
             lat: kirk.filtered[i]["latitude"],
             lng: kirk.filtered[i]["longitude"],
             icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
             title: kirk.filtered[i]["name"],
             infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
-          })
+          });
+          stops_markers.push(stop_marker);
         }
       },
       error: function(error){
@@ -387,7 +467,54 @@ $(document).ready(function(){
           map.removeMarkers();
           map.addMarker({
             lat: latlng.lat(),
-            lng: latlng.lng()
+            lng: latlng.lng(),
+            draggable: true,
+            dragend: function(e) {
+              latitude = this.getPosition().lat();
+              longitude = this.getPosition().lng();
+              map.removePolygons();
+              map.drawCircle({
+                lat: latitude,
+                lng: longitude,
+                radius: 500,  //500 meters
+                strokeColor: '#003366',
+                strokeOpacity: 1,
+                strokeWeight: 2,
+                fillColor: '#0f69b4',
+                fillOpacity: 0.35
+              });
+
+              clearMarkers();
+
+              kirk.locLatitude = latitude;
+              kirk.locLongitude = longitude;
+              kirk.init();
+              kirk.filterMarkers(0.5);
+              kirk.changeTable();
+
+              for(var i = 0; i< kirk.filtered.length; i++){
+                var address_marker_move = map.addMarker({
+                  lat: kirk.filtered[i]["latitude"],
+                  lng: kirk.filtered[i]["longitude"],
+                  icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
+                  title: kirk.filtered[i]["name"],
+                  infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
+                });
+                addStopsMarkers(address_marker_move);
+              }
+            }
+          });
+
+          map.removePolygons();
+          map.drawCircle({
+            lat: latlng.lat(),
+            lng: latlng.lng(),
+            radius: 500,  //500 meters
+            strokeColor: '#003366',
+            strokeOpacity: 1,
+            strokeWeight: 2,
+            fillColor: '#0f69b4',
+            fillOpacity: 0.35
           });
           kirk.locLatitude = map["map"]["center"]["k"];
           kirk.locLongitude = map["map"]["center"]["D"];
@@ -395,13 +522,14 @@ $(document).ready(function(){
           kirk.filterMarkers(0.5);
           kirk.changeTable();
           for(var i = 0; i< kirk.filtered.length; i++){
-            map.addMarker({
+            var addressbox_marker = map.addMarker({
               lat: kirk.filtered[i]["latitude"],
               lng: kirk.filtered[i]["longitude"],
               icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
               title: kirk.filtered[i]["name"],
               infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
-            })
+            });
+            addStopsMarkers(addressbox_marker);
           }
         }
       }

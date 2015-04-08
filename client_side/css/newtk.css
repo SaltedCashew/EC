@@ -156,6 +156,7 @@
 .timetable-header{
   text-align: center;
   height: 50px;
+
 }
 
 .timetable-header a{
@@ -198,7 +199,7 @@
  }
 
 .tablepanel a:link{
-  color: yellow;
+  color: #000000;
 }
 
 a.dynatable-page-link {
@@ -280,7 +281,7 @@ a.dynatable-page-next a.dynatable-page-link {
  }
  .header-banner{
 
-  min-height: 950px;
+  min-height: 1250px;
 
 }
 

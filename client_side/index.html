@@ -58,13 +58,13 @@
               <div class="row">
                 <div class="large-12 small-6 columns">
                     <form id = "addressBox">
-                    <input type ="text" id="postcode" placeholder="Enter your post code" style="width: 85%;margin-left: 5%">
+                    <input type ="text" id="postcode" placeholder="Enter your post code or address" style="width: 85%;margin-left: 5%">
                     <input class = "small round button searchButton" type="submit" value="Search for nearby bus stops">
                     </form>
                 </div>
               </div>
               <div class="hide-for-small text-center">
-                *Enter in your Post Code to Search for nearby bus stops. Use the list or map to select your desired bus stop.<br><br>
+                *Enter in your Post Code or address to Search for nearby bus stops. Use the list or map to select your desired bus stop.<br><br>
                 *The timer will then count down until you need to leave your location to reach the bus on time.
               </div>
               <div class="show-for-small-only text-center">
@@ -95,8 +95,8 @@
             <table class="info-table expension" id="timeTable">
               <thead>
                 <tr>
-                  <th class="timetable-header" data-dynatable-column="service_name">Service</th>
-                  <th class="timetable-header" data-dynatable-column="time">Time</th>
+                  <th class="timetable-header" style="color: #000000" data-dynatable-column="service_name">Service</th>
+                  <th class="timetable-header" style="color: #000000" data-dynatable-column="time">Time</th>
                 </tr>
               </thead>
             </table>
@@ -154,6 +154,7 @@
 
      <!-- Begin Scripts -->     
  
+    <!-- // <script src="js/scripts.js"></script> -->
     <script src="ts/scripts.ts"></script>
 
     <!-- Start MacMaps Script -->
