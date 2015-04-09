@@ -330,7 +330,6 @@ function startTimer(time,service,unixtime){
 
     timeToGo = timetable_secs - curr_secs -leave_offset - traveling_time - wait_offset;
     console.log(timeToGo);
-
     clock.setTime(timeToGo);
     clock.start();
   });
@@ -361,7 +360,7 @@ var audio = new Audio('alert.mp3');
 
 $(document).ready(function(){
   clock = $('.clock').FlipClock(0000, {
-    clockFace: 'HourlyCounter',
+    clockFace: 'MinuteCounter',
     autoStart: false,
     countdown: true,
      callbacks: {
