@@ -1,11 +1,11 @@
-[ec-team-kirk](http://www.teamkirk.tk/)
+[ec-team-kirk](https://teamkirk.herokuapp.com)
 ===
 
-- Project page: http://www.teamkirk.tk/
+- Project page: https://teamkirk.herokuapp.com
 
 ##Localhost
 - Dependencies: Node.js, `$ npm install`
-- Start:  `$ node web.js`
+- Start:  `$ node web`
 - Homepage: http://localhost:3000/
 - Map: http://localhost:3000/maps
 
@@ -28,12 +28,4 @@
  - time_mode: string (`LeaveAfter` or `ArriveBy`)
 
 ##To-Do
-- (Mac) display marker
-- (Brad) display services info (verbose toggle)
-- (Sara) calculate the distance into km
-- (Paul) function to calculate the distance from current position to destination (routes)
-- (Brad) trigger timer after click on specific bus time 
-- (Sara) show the time table underneath the stops 
-- (Paul) Change table after submitted the postal code
-- Report
 - Cross-platform testing

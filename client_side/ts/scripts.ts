@@ -29,7 +29,12 @@ kirk={
       point.distance = (point.distance * 1.609344).toFixed(2);
     }
   },
-
+  openMarker: function(id){
+    for(var i = 0; i< stops_markers.length; i++){
+      if(stops_markers[i].title == id)
+        google.maps.event.trigger(stops_markers[i], 'click');
+    }
+  },
   filterMarkers: function(distance){
     var filteredPoints = []
 
@@ -48,7 +53,7 @@ kirk={
     for (var i = 0; i<kirk.filtered[stop]["services"].length; i++){
       stop_id = kirk.filtered[stop]["stop_id"];
       stopDistance = kirk.filtered[stop]["distance"];
-      services = services + "<a href =\"#\" + onClick=kirk.getTimetableService(" + stop_id +','+stopDistance+','+kirk.filtered[stop]["services"][i]+")>" + kirk.filtered[stop]["services"][i] + "</a>" + ", "
+      services = services + "<a href =\"#\" + onClick=kirk.getTimetableService(" + stop_id +','+stopDistance+',\''+kirk.filtered[stop]["services"][i]+"\')>" + kirk.filtered[stop]["services"][i] + "</a>" + ", "
     }
     return services.substring(0,services.length-2);
   },
@@ -75,7 +80,6 @@ kirk={
 
   getTimetable: function(stop_id, distance) {
     $.get( "api/timetable/"+stop_id, function( data ) {
-      //console.log("Timetable", data);
       var timetable = [];
       for (var i = 0; i<data.departures.length; i++){
         if (kirk.compareTime(data.departures[i]["time"]) && data.departures[i]["day"] == kirk.getDay()){
@@ -90,10 +94,12 @@ kirk={
     });
   },
   compareTime: function(time){ //checks current time with input, returns true if the time hasn't passed and false otherwise.
-    //buiding in a 10 minute buffer - return false if current time less than 10 minutes prior to input
+    //buiding in a  buffer - return false if current time less than 10 minutes prior to input
     var d = new Date();
-    var buffer = 0; //10 minute buffer update: I've set it to zero for now since I'm testing a different implementation.
+
+    var buffer = 0; //3 minute buffer
     var bufferDate = new Date(d.getTime() + buffer*60000);
+
     curr_hours = bufferDate.getHours();
     curr_minutes = bufferDate.getMinutes();
     
@@ -186,26 +192,31 @@ kirk={
 
       var leave_offset = 60; // Time taken to leave location
       var wait_offset = 60; // Estimated waiting time
+      var buffer = 60;
 
-      console.log(curr_secs,timetable_secs);
+      console.log("currsecs",curr_secs);
+      console.log("timeTableStopDistance",kirk.timeTableStopDistance);
+      console.log("timeToGo",timeToGo);
+      console.log("timetable_secs",timetable_secs );
 
-      if (curr_secs + timeToGo + leave_offset + wait_offset >= timetable_secs){
+
+      console.log("timeToGo",timeToGo);
+      if (curr_secs + timeToGo + leave_offset + wait_offset + buffer >= timetable_secs){
         return false;
       }
       else {
         return true;
       }
-      console.log("timeToGo",timeToGo);
     }
 
     //use for writing the services tags
     function timeCellWriter(column, timeInfo, record) {
       var html = column.attributeWriter(record),
       td = '<td';
-      var time = console.log(record.time);
       var d = new Date();
       var n = d.toDateString();
       var timeString = n + ' ' + record.time;
+      var time = console.log(record.time);
       var unixtime = Date.parse(timeString)/1000; // A Number, representing the number of milliseconds between the specified date-time and midnight January 1, 1970 (/1000)
       if(checkWalkingTime(unixtime)){
         html = '<span style="cursor: pointer;color:blue" onclick="startTimer('+time+','+kirk.timeTableStopID+','+unixtime + ')">'+html+'</span>';
@@ -272,9 +283,10 @@ kirk={
 
     //use for writing the Stop Names row
     function editedCellWriter(column, record) {
-      var html = column.attributeWriter(record),
+      console.log(record)
+      var html = column.attributeWriter(record) + " " + "(" + record.direction + ")",
       td = '<td';
-      html = '<span style="cursor: pointer;color:blue" onclick="kirk.getTimetable('+record.stop_id+',' +record.distance +' )">'+html+'</span>';
+      html = '<span style="cursor: pointer;color:blue" onclick="kirk.getTimetable('+record.stop_id+',' +record.distance +' );kirk.openMarker(\''+ record.name +' ('+record.direction+')\' )">'+html+'</span>';
           if (column.hidden || column.textAlign) {
             td += ' style="max-width:113px;font-weight:normal;word-wrap:normal;';
 
@@ -304,8 +316,7 @@ function startTimer(time,service,unixtime){
   var leave_offset = 60; // Time taken to leave location
   var wait_offset = 60; // Estimated waiting time
   
-  var audio = new Audio('alert.mp3');
-
+ 
 
   for( var i=0; i<kirk.filtered.length; i++){
       if(kirk.filtered[i]["stop_id"] == service){
@@ -320,21 +331,8 @@ function startTimer(time,service,unixtime){
     timeToGo = timetable_secs - curr_secs -leave_offset - traveling_time - wait_offset;
     console.log(timeToGo);
 
-      var clock = $('.clock').FlipClock(timeToGo, {
-      clockFace: 'SecondCounter',
-      autoStart: true,
-      countdown: true,
-      callbacks: {
-        interval: function() {
-          var time = this.factory.getTime().time;
-          if (time == 0){
-            audio.play();
-            alert("You should be leaving your location now to catch your bus on time.")
-          }
-        }
-      }
-    });
-
+    clock.setTime(timeToGo);
+    clock.start();
   });
 
 
@@ -358,11 +356,23 @@ function clearMarkers(){
   return;
 }
 
+var audio = new Audio('alert.mp3');
+
+
 $(document).ready(function(){
   clock = $('.clock').FlipClock(0000, {
-    clockFace: 'MinuteCounter',
+    clockFace: 'HourlyCounter',
     autoStart: false,
-    countdown: true
+    countdown: true,
+     callbacks: {
+        interval: function() {
+          var time = this.factory.getTime().time;
+          if (time == 0){
+            audio.play();
+            alert("You should be leaving your location now to catch your bus on time.")
+          }
+        }
+      }
   });
 
   map = new GMaps({
@@ -392,8 +402,8 @@ $(document).ready(function(){
             map.drawCircle({
               lat: latitude,
               lng: longitude,
-              radius: 500,  //500 meters
-              strokeColor: '#003366',
+              radius: 320,  //320 meters
+              strokeColor: '#0f69b4',
               strokeOpacity: 1,
               strokeWeight: 2,
               fillColor: '#0f69b4',
@@ -413,8 +423,8 @@ $(document).ready(function(){
                 lat: kirk.filtered[i]["latitude"],
                 lng: kirk.filtered[i]["longitude"],
                 icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
-                title: kirk.filtered[i]["name"],
-                infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
+                title: kirk.filtered[i]["name"] + " ("+kirk.filtered[i]["direction"]+")" ,
+                infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + " (" + kirk.filtered[i]["direction"] + ")"+ "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
               });
               addStopsMarkers(stops_marker_move);
             }
@@ -424,8 +434,8 @@ $(document).ready(function(){
         map.drawCircle({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
-          radius: 500,  //350 meters
-          strokeColor: '#003366',
+          radius: 320,  //320 meters
+          strokeColor: '#0f69b4',
           strokeOpacity: 1,
           strokeWeight: 2,
           fillColor: '#0f69b4',
@@ -438,11 +448,19 @@ $(document).ready(function(){
         kirk.changeTable();
         for(var i = 0; i< kirk.filtered.length; i++){
           var stop_marker = map.addMarker({
+            click: function(){
+              if(this["stop_id"]){
+                kirk.getTimetable(this["stop_id"], this["dist"]);
+              }
+            },
+            stop_id: kirk.filtered[i]["stop_id"],
+            dist: kirk.filtered[i]["distance"],
             lat: kirk.filtered[i]["latitude"],
             lng: kirk.filtered[i]["longitude"],
+            
             icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
-            title: kirk.filtered[i]["name"],
-            infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
+            title: kirk.filtered[i]["name"] + " ("+kirk.filtered[i]["direction"]+")" ,
+            infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + " (" + kirk.filtered[i]["direction"] + ")"+ "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
           });
           stops_markers.push(stop_marker);
         }
@@ -476,8 +494,8 @@ $(document).ready(function(){
               map.drawCircle({
                 lat: latitude,
                 lng: longitude,
-                radius: 500,  //500 meters
-                strokeColor: '#003366',
+                radius: 320,  //320 meters
+                strokeColor: '#0f69b4',
                 strokeOpacity: 1,
                 strokeWeight: 2,
                 fillColor: '#0f69b4',
@@ -496,9 +514,16 @@ $(document).ready(function(){
                 var address_marker_move = map.addMarker({
                   lat: kirk.filtered[i]["latitude"],
                   lng: kirk.filtered[i]["longitude"],
+                  click: function(){
+                    if(this["stop_id"]){
+                      kirk.getTimetable(this["stop_id"], this["dist"]);
+                    }
+                  },
+                  stop_id: kirk.filtered[i]["stop_id"],
+                  dist: kirk.filtered[i]["distance"],
                   icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
-                  title: kirk.filtered[i]["name"],
-                  infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
+                  title: kirk.filtered[i]["name"] + " ("+kirk.filtered[i]["direction"]+")" ,
+                  infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + " (" + kirk.filtered[i]["direction"] + ")" + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
                 });
                 addStopsMarkers(address_marker_move);
               }
@@ -509,8 +534,8 @@ $(document).ready(function(){
           map.drawCircle({
             lat: latlng.lat(),
             lng: latlng.lng(),
-            radius: 500,  //500 meters
-            strokeColor: '#003366',
+            radius: 320,  //320 meters
+            strokeColor: '#0f69b4',
             strokeOpacity: 1,
             strokeWeight: 2,
             fillColor: '#0f69b4',
@@ -525,9 +550,16 @@ $(document).ready(function(){
             var addressbox_marker = map.addMarker({
               lat: kirk.filtered[i]["latitude"],
               lng: kirk.filtered[i]["longitude"],
+              click: function(){
+                if(this["stop_id"]){
+                  kirk.getTimetable(this["stop_id"], this["dist"]);
+                }
+              },
+              stop_id: kirk.filtered[i]["stop_id"],
+              dist: kirk.filtered[i]["distance"],
               icon: "http://gmapsmarkergenerator.eu01.aws.af.cm/getmarker?scale=1&color=00ff00",
-              title: kirk.filtered[i]["name"],
-              infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
+              title: kirk.filtered[i]["name"] + " ("+kirk.filtered[i]["direction"]+")" ,
+              infoWindow: { content: "<b>" + kirk.filtered[i]["name"] + " (" + kirk.filtered[i]["direction"] + ")"+ "</b>" + "<br>" + "Services: " + kirk.parseServices(i)}
             });
             addStopsMarkers(addressbox_marker);
           }

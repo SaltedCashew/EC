@@ -5,10 +5,6 @@
   "scripts": {
     "start": "node web.js"
   },
-  "engines": {
-    "node": "0.12.x",
-    "npm": "2.5.x"
-  },
   "dependencies": {
     "apicache": "0.0.12",
     "body-parser": "~1.8.1",

@@ -37,8 +37,7 @@
             <div id="map"> </div>
           </div>
           <div class="show-for-small-only" style="height:100%">
-            <div id="map_small"></div>
-            <img id ="map_static" src='img/edin.png' alt="static map background">
+            <img id ="smallscreen_img" src='img/edin-small.jpg' alt="Edinburgh Earl Grey Street">
           </div>
         </div>
       
@@ -85,7 +84,6 @@
                 <a href="#" class="has-expansion"><tr>
                   <th class="info-table-title" >Name</th>
                   <th class="info-table-title"  data-dynatable-column="distance">Distance (km)</th>
-                  <!-- <th class="info-table-title" style="display:none">services</th> -->
                 </tr></a>
               </thead>
               <tbody>
@@ -114,7 +112,7 @@
     <!-- Begin Lower / Footer Section --> 
     <div class = "bottom-back">
       <footer class="row">
-        <div class="large-12 columns " style="background-color: #333333">
+        <div class="large-12 small-footer columns " style="background-color: #333333">
           <hr>
           <div class="row"  style="background-color: #333333">
             <div class="large-6 columns">
@@ -141,7 +139,7 @@
       <ul>
         <li> Matthew Hepburn - Team Leader - API</li>
         <li><a href ="http://saraqizhang.me/" alt="saraqizhang.me">Sara Zhang </a>- Back end NodeJS developer </li> 
-        <li>Mac Chong - Google Maps </li>
+        <li><a href ="https://uk.linkedin.com/in/macchong">Mac Chong </a>- Google Maps, Functionality integration </li>
         <li><a href ="http://www.bradpgray.com" alt="BradPGray.com">Brad Gray </a>- Front-end foundation framework, Responsive design </li>
         <li>Paulius Gedminas - front end, Typescript, javascript, integration</li>
       </ul>  
@@ -156,14 +154,6 @@
  
     <!-- // <script src="js/scripts.js"></script> -->
     <script src="ts/scripts.ts"></script>
-
-    <!-- Start MacMaps Script -->
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkAmuPTUzfsLsKVg4DUEQ4vFl89u_qNDk">
-    </script>
-    <script src="../maps/mapsts.js">
-    google.maps.event.addDomListener(window, 'load', initialize);</script>
-    <!-- End MacMaps Script -->
  
     <script src="js/flipclock/flipclock.min.js"></script>
     <script src="/js/vendor/fastclick.js"></script>
